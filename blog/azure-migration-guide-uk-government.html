@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Migration Guide for UK Government | Step-by-Step Cloud Migration</title>
+    <meta name="description" content="A practical guide to migrating UK local government systems to Azure. Covers G-Cloud compliance, security, networking, cost management, and phased migration strategies.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/blog/azure-migration-guide-uk-government.html">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <a href="../" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#stack">Stack</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="article-hero">
+    <div class="container">
+        <p class="breadcrumb"><a href="../">Home</a> / <a href="../blog.html">Blog</a> / Azure Migration Guide for UK Government Teams</p>
+        <div class="section-label">Azure</div>
+        <h1>Azure Migration Guide for UK Government Teams</h1>
+    </div>
+</section>
+
+<div class="article-content fade-up">
+<p>Migrating government systems to the cloud isn't just a technology decision — it's a strategic shift that affects security, compliance, procurement, and the way your entire team works. After managing cloud migrations across three UK councils, here's my practical guide to getting it right.</p>
+
+    <h2>Why Azure for Government?</h2>
+    <p>Azure is the dominant cloud platform in UK government for good reason. Microsoft has UK-based data centres (UK South and UK West), holds G-Cloud framework accreditation, and meets the security standards required for OFFICIAL and OFFICIAL-SENSITIVE classified workloads. It also integrates natively with Active Directory, which most councils already use.</p>
+
+    <h2>Step 1: Cloud Readiness Assessment</h2>
+    <p>Before migrating anything, audit your current estate. Map every application, database, and service. Document dependencies between systems. Identify which workloads are lift-and-shift candidates, which need re-architecting, and which should be replaced entirely with SaaS alternatives.</p>
+    <p>I use Azure Migrate for discovery and assessment. It scans your on-premise environment, identifies dependencies, and provides sizing recommendations for Azure equivalents. This alone saves weeks of manual work.</p>
+
+    <h2>Step 2: Network and Security Foundation</h2>
+    <p>Set up your Azure landing zone before migrating any workloads. This means configuring virtual networks, subnets, network security groups, Azure Firewall or equivalent, and VPN or ExpressRoute connectivity back to your on-premise network. Get this right first — retrofitting networking after migration is painful.</p>
+    <p>For government workloads, enable Azure Policy to enforce compliance guardrails automatically. Block resources from being created outside UK regions, enforce encryption at rest, require diagnostic logging on all resources.</p>
+
+    <h2>Step 3: Identity and Access</h2>
+    <p>Sync your on-premise Active Directory to Azure AD using Azure AD Connect. Set up conditional access policies, enable multi-factor authentication for all admin accounts (ideally all users), and configure Privileged Identity Management for time-limited admin access.</p>
+
+    <h2>Step 4: Phased Migration</h2>
+    <p>Never do a big-bang migration. Start with low-risk, low-dependency workloads — development environments, internal tools, file shares. Build confidence and operational knowledge before touching production systems.</p>
+    <p>For each workload, follow this pattern: migrate to staging → test thoroughly → run parallel with on-premise → cutover → monitor → decommission old system. Document every step in a runbook that your ops team can follow independently.</p>
+
+    <h2>Step 5: Cost Management</h2>
+    <p>Cloud costs catch people off guard. Set up Azure Cost Management from day one. Configure budgets and alerts. Use reserved instances for predictable workloads (save 30-60%). Right-size VMs — most teams over-provision initially. Schedule non-production environments to shut down outside business hours.</p>
+
+    <h2>Common Pitfalls</h2>
+    <p>Underestimating bandwidth requirements for the migration itself. Forgetting to account for data egress costs. Not training the ops team before cutover. Migrating without modernising — if you lift-and-shift a poorly architected system, you just get a poorly architected system in the cloud that costs more.</p>
+
+    <h2>Need Help?</h2>
+    <p>I offer cloud readiness assessments and full migration services for UK government teams. If you're planning a migration and want to avoid the common pitfalls, get in touch for a free 30-minute discovery call.</p>
+</div>
+
+<section>
+    <div class="cta-section fade-up">
+        <h2>Need Help With This?</h2>
+        <p>I offer consulting and hands-on development for .NET, Azure, and DevOps projects. Let's talk about how I can help.</p>
+        <a href="../contact.html" class="btn btn-primary">Get in Touch →</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>© 2026 Anthony D Johnson. All rights reserved.</span>
+            <span>Peterborough, UK · Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

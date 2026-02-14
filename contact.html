@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact — Anthony D Johnson | Freelance .NET & Azure Developer</title>
+    <meta name="description" content="Get in touch to discuss your .NET, Azure, or DevOps project. Free 30-minute discovery call. Based in Peterborough, UK — available remotely worldwide.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/contact.html">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <a href="/" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#stack">Stack</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="article-hero">
+    <div class="container">
+        <div class="section-label">Contact</div>
+        <h1>Let's Talk About<br>Your Project</h1>
+        <p class="hero-sub">Fill in the form below and I'll get back to you within 24 hours. Or book a free 30-minute discovery call to discuss your needs.</p>
+    </div>
+</section>
+
+<section style="padding-top: 0;">
+    <div class="container">
+        <div class="contact-grid fade-up">
+            <form id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="jane@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="service">What Do You Need?</label>
+                    <select id="service" name="service">
+                        <option value="">Select a service...</option>
+                        <option value="azure-migration">Azure Cloud Migration</option>
+                        <option value="dotnet-development">.NET Application Development</option>
+                        <option value="devops">DevOps & CI/CD Setup</option>
+                        <option value="legacy-modernisation">Legacy Modernisation</option>
+                        <option value="team-augmentation">Team Augmentation</option>
+                        <option value="api-integration">API & Integration Development</option>
+                        <option value="consulting">Consulting / Architecture Review</option>
+                        <option value="other">Something Else</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Approximate Budget</label>
+                    <select id="budget" name="budget">
+                        <option value="">Select a range...</option>
+                        <option value="under-5k">Under £5,000</option>
+                        <option value="5k-15k">£5,000 – £15,000</option>
+                        <option value="15k-50k">£15,000 – £50,000</option>
+                        <option value="50k-plus">£50,000+</option>
+                        <option value="ongoing">Ongoing / Retainer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Project Details</label>
+                    <textarea id="message" name="message" placeholder="Tell me about your project, timeline, and any specific requirements..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message →</button>
+            </form>
+            <div class="contact-info-cards">
+                <div class="contact-info-card">
+                    <h4>📧 Email</h4>
+                    <p><a href="mailto:anthonyjohnson.dev@outlook.com">anthonyjohnson.dev@outlook.com</a></p>
+                </div>
+                <div class="contact-info-card">
+                    <h4>📍 Location</h4>
+                    <p>Peterborough, UK<br><span style="color:var(--text-muted)">Available remotely worldwide</span></p>
+                </div>
+                <div class="contact-info-card">
+                    <h4>⏱️ Availability</h4>
+                    <p style="color: var(--success); font-weight: 600;">Currently accepting new projects</p>
+                    <p style="margin-top:8px;">Typical response time: under 24 hours</p>
+                </div>
+                <div class="contact-info-card">
+                    <h4>💡 Free Discovery Call</h4>
+                    <p>Not sure what you need? Book a free 30-minute call and I'll help you figure out the best approach for your project.</p>
+                </div>
+                <div class="contact-info-card">
+                    <h4>🌐 Find Me On</h4>
+                    <p>
+                        <a href="https://github.com/playerjohnson" target="_blank">GitHub</a> ·
+                        <a href="https://www.upwork.com/" target="_blank">Upwork</a> ·
+                        <a href="https://www.peopleperhour.com/" target="_blank">PeoplePerHour</a> ·
+                        <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>© 2026 Anthony D Johnson. All rights reserved.</span>
+            <span>Peterborough, UK · Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

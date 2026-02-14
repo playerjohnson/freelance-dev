@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://playerjohnson.github.io/freelance-dev/sitemap.xml

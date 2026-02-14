@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps CI/CD Pipeline Setup Guide | YAML Pipelines Tutorial</title>
+    <meta name="description" content="How to set up Azure DevOps CI/CD pipelines from scratch. YAML pipeline configuration, build automation, automated testing, and deployment to Azure App Service.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/blog/azure-devops-pipelines-from-scratch.html">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <a href="../" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#stack">Stack</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="article-hero">
+    <div class="container">
+        <p class="breadcrumb"><a href="../">Home</a> / <a href="../blog.html">Blog</a> / Setting Up Azure DevOps Pipelines from Scratch</p>
+        <div class="section-label">DevOps</div>
+        <h1>Setting Up Azure DevOps Pipelines from Scratch</h1>
+    </div>
+</section>
+
+<div class="article-content fade-up">
+<p>If your team is still building and deploying manually, you're wasting hours every week and introducing risk with every release. Here's how to set up Azure DevOps pipelines that automate the entire process.</p>
+
+    <h2>Why YAML Pipelines?</h2>
+    <p>Azure DevOps supports both the classic GUI editor and YAML pipelines. Use YAML. It lives in your repository alongside your code, so it's version controlled, reviewable in pull requests, and portable. The classic editor is fine for learning, but YAML is the standard for production.</p>
+
+    <h2>Build Pipeline Basics</h2>
+    <p>A basic .NET build pipeline does four things: restore NuGet packages, build the solution, run tests, and publish the output as an artifact. In YAML, this takes about 30 lines. Trigger it on every push to your main branch and on pull requests.</p>
+    <p>Key tip: use <code>dotnet test --logger trx</code> to generate test results that Azure DevOps can display natively in the pipeline summary. Add code coverage with <code>coverlet</code> and publish the results — your team will actually look at coverage when it's visible in every PR.</p>
+
+    <h2>Release Pipeline</h2>
+    <p>For deployment, I use multi-stage YAML pipelines. Stage 1: build and test. Stage 2: deploy to staging with automatic approval. Stage 3: deploy to production with manual approval gate. Each stage references the artifact from Stage 1, ensuring you deploy exactly what you tested.</p>
+
+    <h2>Infrastructure as Code</h2>
+    <p>Don't create Azure resources manually. Use Terraform or Bicep in your pipeline to create and update infrastructure. This means your staging and production environments are identical, new environments can be spun up in minutes, and infrastructure changes go through the same review process as code changes.</p>
+
+    <h2>Essential Additions</h2>
+    <p>Once the basics are working, add: branch policies requiring successful builds before merging, SonarQube or similar for code quality gates, Slack/Teams notifications for build failures, automatic dependency updates with Dependabot, and scheduled builds for security scanning.</p>
+
+    <h2>Getting Started</h2>
+    <p>If this feels overwhelming, start simple. Get a build pipeline running that restores, builds, and tests on every push. That alone catches most bugs before they reach production. Add deployment automation later. The perfect pipeline is the enemy of the good pipeline.</p>
+</div>
+
+<section>
+    <div class="cta-section fade-up">
+        <h2>Need Help With This?</h2>
+        <p>I offer consulting and hands-on development for .NET, Azure, and DevOps projects. Let's talk about how I can help.</p>
+        <a href="../contact.html" class="btn btn-primary">Get in Touch →</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>© 2026 Anthony D Johnson. All rights reserved.</span>
+            <span>Peterborough, UK · Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrate .NET Framework to .NET 8 | Practical Upgrade Guide 2026</title>
+    <meta name="description" content="Step-by-step guide to migrating .NET Framework 4.x applications to .NET 8. Covers assessment, incremental migration, common breaking changes, and real-world lessons learned.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/blog/dotnet-framework-to-dotnet-8-migration.html">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <a href="../" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#stack">Stack</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="article-hero">
+    <div class="container">
+        <p class="breadcrumb"><a href="../">Home</a> / <a href="../blog.html">Blog</a> / Migrating from .NET Framework to .NET 8: A Practical Guide</p>
+        <div class="section-label">.NET</div>
+        <h1>Migrating from .NET Framework to .NET 8: A Practical Guide</h1>
+    </div>
+</section>
+
+<div class="article-content fade-up">
+<p>.NET Framework 4.8 is the final major version — it's in maintenance mode with no new features planned. Meanwhile, .NET 8 (and soon .NET 9) offers massive performance improvements, cross-platform support, and modern language features. If you're still on Framework, here's how to migrate pragmatically.</p>
+
+    <h2>Should You Migrate?</h2>
+    <p>Not every app needs migrating. If it's stable, rarely changes, and doesn't need new features — leave it. But if you're actively developing it, struggling with performance, need Linux/container support, or can't hire developers who want to work on legacy tech, it's time.</p>
+
+    <h2>Step 1: Assess Your Codebase</h2>
+    <p>Run the .NET Upgrade Assistant — it analyses your solution and flags incompatibilities. Also check your NuGet packages: are .NET 8-compatible versions available? Any dependencies on Windows-only APIs like WCF client, System.Drawing, or registry access?</p>
+    <p>The biggest blockers I've seen in government projects: heavy use of Web Forms (no equivalent in modern .NET), WCF services (need replacing with gRPC or REST), and OWIN/Katana middleware.</p>
+
+    <h2>Step 2: Prepare Your Solution</h2>
+    <p>Before touching the target framework, clean up. Update all NuGet packages to their latest Framework-compatible versions. Replace deprecated APIs. Add unit tests for critical paths if you don't have them — you'll need them to verify nothing breaks during migration.</p>
+
+    <h2>Step 3: Migrate Incrementally</h2>
+    <p>Start with class libraries — they're usually the easiest. Convert them to .NET Standard 2.0 first (compatible with both Framework and modern .NET), then move to .NET 8 once all consumers are ready. Use multi-targeting if you need to support both temporarily.</p>
+    <p>For web projects, the jump from MVC 5 to ASP.NET Core MVC is the biggest change. The request pipeline, dependency injection, configuration system, and middleware model are all different. Plan for this to take the most time.</p>
+
+    <h2>Step 4: Handle Breaking Changes</h2>
+    <p>The most common issues I encounter: System.Web references (no equivalent — use ASP.NET Core abstractions), HttpContext.Current (replaced by IHttpContextAccessor), bundling and minification (use LibMan or a build tool), and authentication (move to ASP.NET Core Identity or external providers).</p>
+
+    <h2>Step 5: Test and Deploy</h2>
+    <p>Run your full test suite. Do side-by-side deployment if possible — run the old and new versions in parallel and compare outputs. Monitor performance closely after deployment: .NET 8 is generally faster, but behaviour differences can surface in edge cases.</p>
+
+    <h2>The Payoff</h2>
+    <p>Faster execution (2-5x in many scenarios), lower memory usage, native container support, modern C# language features, and a framework that's actively developed and supported. Plus, you'll find it much easier to hire developers.</p>
+</div>
+
+<section>
+    <div class="cta-section fade-up">
+        <h2>Need Help With This?</h2>
+        <p>I offer consulting and hands-on development for .NET, Azure, and DevOps projects. Let's talk about how I can help.</p>
+        <a href="../contact.html" class="btn btn-primary">Get in Touch →</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>© 2026 Anthony D Johnson. All rights reserved.</span>
+            <span>Peterborough, UK · Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

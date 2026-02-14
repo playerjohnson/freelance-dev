@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Application Modernisation Without Rewriting | Strangler Fig Pattern</title>
+    <meta name="description" content="How to modernise legacy .NET applications without a risky full rewrite. Strangler fig pattern, incremental refactoring, and pragmatic strategies for updating aging systems.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/blog/legacy-modernisation-without-rewrite.html">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container">
+        <a href="../" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="../index.html#services">Services</a></li>
+            <li><a href="../index.html#stack">Stack</a></li>
+            <li><a href="../index.html#about">About</a></li>
+            <li><a href="../blog.html">Blog</a></li>
+            <li><a href="../contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="article-hero">
+    <div class="container">
+        <p class="breadcrumb"><a href="../">Home</a> / <a href="../blog.html">Blog</a> / Modernise Legacy Apps Without a Full Rewrite</p>
+        <div class="section-label">Modernisation</div>
+        <h1>Modernise Legacy Apps Without a Full Rewrite</h1>
+    </div>
+</section>
+
+<div class="article-content fade-up">
+<p>The temptation when facing a legacy codebase is to scrap it and start fresh. Don't. Full rewrites are the number one cause of failed software projects. Here's how to modernise incrementally, reducing risk while delivering value continuously.</p>
+
+    <h2>Why Full Rewrites Fail</h2>
+    <p>The legacy system has years of bug fixes, edge case handling, and domain knowledge baked in. A rewrite throws all of this away. Meanwhile, the old system still needs maintaining, so you're paying for two systems at once. And the rewrite always takes longer than estimated — typically 2-3x longer — because the complexity that made the old system messy doesn't disappear in the new one.</p>
+
+    <h2>The Strangler Fig Pattern</h2>
+    <p>Named after tropical fig trees that gradually envelop their host, this pattern replaces legacy components one at a time. New functionality is built in the modern stack. Old functionality is migrated piece by piece. A routing layer directs traffic to either the old or new system. Eventually, the old system has nothing left and can be switched off.</p>
+
+    <h2>Where to Start</h2>
+    <p>Don't start with the most complex component. Start with something small, well-understood, and low-risk. A settings page. A simple report. A lookup API. This lets you establish the new architecture, set up CI/CD, and prove the approach works — all without risking anything critical.</p>
+
+    <h2>The API Boundary</h2>
+    <p>Put an API layer between the old and new systems. The new frontend calls the API. The API talks to both old and new backends depending on which component has been migrated. This gives you a clean separation point and lets you migrate at whatever pace works for your team.</p>
+
+    <h2>Dealing With the Database</h2>
+    <p>The database is usually the hardest part. Legacy systems often have tightly coupled stored procedures, triggers, and direct table access from multiple applications. My approach: keep the existing database initially and build new services that read from it. Gradually introduce new tables/schemas for migrated components. Eventually consolidate when the old system is fully replaced.</p>
+
+    <h2>Measuring Progress</h2>
+    <p>Track what percentage of traffic goes through the new system versus the old. This gives you a clear, objective measure of migration progress that stakeholders can understand. Set realistic milestones — 25%, 50%, 75% — and celebrate each one.</p>
+</div>
+
+<section>
+    <div class="cta-section fade-up">
+        <h2>Need Help With This?</h2>
+        <p>I offer consulting and hands-on development for .NET, Azure, and DevOps projects. Let's talk about how I can help.</p>
+        <a href="../contact.html" class="btn btn-primary">Get in Touch →</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>© 2026 Anthony D Johnson. All rights reserved.</span>
+            <span>Peterborough, UK · Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
