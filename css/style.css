@@ -708,3 +708,25 @@ section:nth-of-type(4) { animation-delay: .2s; }
 section:nth-of-type(5) { animation-delay: .25s; }
 section:nth-of-type(6) { animation-delay: .3s; }
 section:nth-of-type(7) { animation-delay: .35s; }
+
+/* Focus Visible - Keyboard Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+}
+
+.skip-link:focus {
+  outline: 2px solid var(--accent, #58a6ff);
+  outline-offset: 2px;
+}
