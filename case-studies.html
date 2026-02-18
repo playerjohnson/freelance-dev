@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Studies — Freelance .NET & Azure Developer | Anthony D Johnson</title>
+    <meta name="description" content="Real project case studies from a senior .NET and Azure developer. Azure migrations, legacy modernisation, and API integration for UK public sector and enterprise clients.">
+    <meta property="og:title" content="Case Studies — Freelance .NET & Azure Developer | Anthony D Johnson">
+    <meta property="og:description" content="Real project case studies from a senior .NET and Azure developer. Azure migrations, legacy modernisation, and API integration for UK public sector and enterprise clients.">
+    <meta property="og:url" content="https://playerjohnson.github.io/freelance-dev/case-studies.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Anthony D Johnson | Freelance Developer">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Case Studies — Freelance .NET & Azure Developer | Anthony D Johnson">
+    <meta name="twitter:description" content="Real project case studies from a senior .NET and Azure developer. Azure migrations, legacy modernisation, and API integration for UK public sector and enterprise clients.">
+    <link rel="canonical" href="https://playerjohnson.github.io/freelance-dev/case-studies.html">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- GTM noscript --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54K98MWX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100000;padding:8px 16px;background:#f59e0b;color:#0a0e1a;font-weight:600;font-size:14px;text-decoration:none;font-family:-apple-system,system-ui,sans-serif;" onfocus="this.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);width:auto;height:auto;overflow:visible;z-index:100000;padding:8px 16px;background:#f59e0b;color:#0a0e1a;font-weight:600;font-size:14px;text-decoration:none;border-radius:4px;font-family:-apple-system,system-ui,sans-serif;'" onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'">Skip to content</a>
+
+<nav role="navigation" aria-label="Main" class="nav">
+    <div class="container">
+        <a href="./" class="nav-logo">anthony<span>.</span>dev</a>
+        <button class="nav-toggle" aria-label="Menu">☰</button>
+        <ul class="nav-links">
+            <li><a href="index.html#services">Services</a></li>
+            <li><a href="index.html#stack">Stack</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html" class="nav-cta">Get in Touch</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main id="main-content">
+    <section class="article-hero">
+    <div class="container">
+        <div class="section-label">Case Studies</div>
+        <h1>Real Projects, Real Results</h1>
+        <p class="hero-sub">Anonymised case studies from public sector and enterprise engagements. The organisations are confidential — the approaches and outcomes are real.</p>
+    </div>
+</section>
+
+<div class="article-content fade-up">
+
+    <!-- Case Study 1 -->
+    <div style="border-left:4px solid #f59e0b;padding-left:1.5rem;margin-bottom:3rem;">
+    <h2 id="azure-migration" style="margin-top:0;">County Council Azure Migration</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Service: <a href="services/azure-cloud-migration.html">Azure Cloud Migration</a> · Duration: 14 weeks · Team: Solo developer with council IT oversight</p>
+
+    <h3>The Challenge</h3>
+    <p>A county council in the East of England was running 12 internal applications on aging on-premise Windows Server 2012 R2 infrastructure. The servers were approaching end of extended support, hardware refresh costs were estimated at £180,000, and the IT team of three couldn't justify the capital expenditure. The council needed to move to the cloud but had no in-house Azure experience, and their previous attempt with a large consultancy had stalled after the discovery phase at a cost of £40,000 with nothing deployed.</p>
+
+    <h3>The Approach</h3>
+    <p>I started with a two-week cloud readiness assessment, mapping all 12 applications, their dependencies, database connections, and authentication flows. Seven of the applications were straightforward ASP.NET MVC apps that could lift-and-shift to Azure App Service. Three required database migrations from on-premise SQL Server to Azure SQL. Two were legacy Windows Forms applications that needed hosting on Azure Virtual Machines as an interim measure while I planned their modernisation.</p>
+    <p>The migration followed a strict phased approach — one application at a time, starting with the lowest-risk internal tools. Each application went through the same cycle: deploy to staging, run parallel with on-premise for two weeks, validate with end users, cutover, monitor for a week, then decommission the old instance. I wrote detailed runbooks for each step so the council's IT team could manage the environment independently after handover.</p>
+    <p>Infrastructure was defined entirely as code using Bicep templates, stored in Azure DevOps alongside CI/CD pipelines for every application. This meant the council could redeploy their entire environment from scratch if needed — no more undocumented server configurations.</p>
+
+    <h3>The Results</h3>
+    <p>All 12 applications were migrated within 14 weeks, under the original 16-week timeline. The council cancelled their £180,000 hardware refresh. Azure running costs came in at approximately £1,400 per month — roughly £16,800 per year compared to the hardware replacement, plus ongoing maintenance savings from automated patching and monitoring. Application availability improved from an estimated 97% (with regular unplanned downtime during server issues) to 99.9% on Azure App Service. The IT team received three half-day training sessions and were managing the environment independently within a month of completion.</p>
+
+    <h3>Technologies Used</h3>
+    <p>Azure App Service, Azure SQL Database, Azure Virtual Machines, Azure Active Directory, Bicep (Infrastructure as Code), Azure DevOps Pipelines, Azure Monitor, Application Insights, Azure Key Vault, Azure Front Door.</p>
+    </div>
+
+    <!-- Case Study 2 -->
+    <div style="border-left:4px solid #f59e0b;padding-left:1.5rem;margin-bottom:3rem;">
+    <h2 id="legacy-modernisation" style="margin-top:0;">District Council Legacy Modernisation</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Service: <a href="services/legacy-modernisation.html">Legacy Modernisation</a> · Duration: 6 months · Team: Solo developer, later joined by 1 junior developer</p>
+
+    <h3>The Challenge</h3>
+    <p>A district council in the Midlands relied on a planning application management system built in 2009 using ASP.NET Web Forms and .NET Framework 3.5. The system handled roughly 2,000 planning applications per year and was critical to the council's statutory obligations. It was running on a single on-premise server with no automated backups, no source control history (the original developer had left years ago), and no automated tests. The council had been quoted £250,000 by a software house for a complete rewrite — a budget they simply didn't have.</p>
+
+    <h3>The Approach</h3>
+    <p>A full rewrite would have taken 12-18 months and carried enormous risk — rebuilding institutional knowledge embedded in the codebase while keeping the live system running. Instead, I proposed the strangler fig pattern: wrap the existing application in a modern shell and incrementally replace components from the outside in.</p>
+    <p>Phase one (weeks 1-4) was stabilisation. I set up proper source control in Azure DevOps, created a CI/CD pipeline, wrote integration tests for the critical workflows (new application submission, officer assessment, decision notification), and configured automated daily backups. This alone gave the council confidence that the system wasn't going to collapse.</p>
+    <p>Phase two (weeks 5-16) was the incremental migration. I created a new ASP.NET Core 8 application that sat alongside the legacy system behind a shared authentication layer. New features were built in the modern codebase. Existing pages were migrated one at a time — starting with the public-facing search portal (highest visibility, lowest complexity), then the officer dashboard, then the application submission workflow. Each migrated page was tested in parallel with the old version before the switchover.</p>
+    <p>Phase three (weeks 17-24) brought on a junior developer from the council's IT team for mentoring and pair programming. Together we migrated the remaining pages, replaced the old stored-procedure-heavy data access layer with Entity Framework Core, and implemented proper role-based access control. The legacy Web Forms application was fully decommissioned by week 22.</p>
+
+    <h3>The Results</h3>
+    <p>The council got a modern, maintainable system for approximately £45,000 — less than a fifth of the rewrite quote. Page load times dropped from 4-8 seconds to under 500 milliseconds. The junior developer was confident enough to maintain and extend the system independently within three months. The system now has 340+ automated tests, runs on Azure App Service, and deploys automatically from a pull request merge. The council has since used the same approach to modernise two more internal systems using the patterns and pipelines established during this engagement.</p>
+
+    <h3>Technologies Used</h3>
+    <p>ASP.NET Core 8, Entity Framework Core, SQL Server, Azure App Service, Azure DevOps Pipelines, xUnit, .NET Upgrade Assistant, Windows Compatibility Pack, Azure Active Directory, Application Insights.</p>
+    </div>
+
+    <!-- Case Study 3 -->
+    <div style="border-left:4px solid #f59e0b;padding-left:1.5rem;margin-bottom:3rem;">
+    <h2 id="api-integration" style="margin-top:0;">Housing Association API Integration Platform</h2>
+    <p style="color:var(--text-muted);font-size:0.9rem;">Service: <a href="services/api-integration.html">API Development &amp; Integration</a> · Duration: 10 weeks · Team: Solo developer with product owner collaboration</p>
+
+    <h3>The Challenge</h3>
+    <p>A housing association managing 4,500 properties across three counties was drowning in manual data entry. Their repairs team logged jobs in one system (a legacy Dynamics CRM instance), their contractors reported completions via email, their finance team invoiced from a spreadsheet, and their tenant portal showed outdated information because it was only synced manually once a week. A single repair — from tenant report to contractor payment — touched four separate systems and required a member of staff to manually copy data between them. The association estimated this was costing 15 hours of staff time per week.</p>
+
+    <h3>The Approach</h3>
+    <p>Rather than replacing any of the existing systems (which would have caused major disruption), I built an API integration layer that connected them. The central piece was a lightweight ASP.NET Core Web API that acted as an event broker — when something happened in one system, it notified the others.</p>
+    <p>The Dynamics CRM integration used the Dataverse Web API to listen for new repair requests and status changes. When a repair was created, the API automatically dispatched it to the contractor management system via webhook. When the contractor marked a job complete (via a simple mobile-friendly web form I built to replace the email workflow), the API updated CRM, pushed the completion data to the finance spreadsheet replacement (a simple Azure SQL database with a reporting dashboard), and updated the tenant portal in real time via SignalR.</p>
+    <p>I implemented the integrations using a message queue pattern with Azure Service Bus. This meant if any single system was temporarily unavailable — CRM maintenance windows, contractor portal downtime — messages were queued and processed when the system came back. No data was lost, and no manual intervention was needed. Polly retry policies and circuit breakers handled transient failures automatically.</p>
+    <p>Authentication between services used Azure AD app registrations with client credential flows. Each integration had its own service principal with minimal required permissions — the contractor portal could update repair statuses but couldn't access financial data, for example.</p>
+
+    <h3>The Results</h3>
+    <p>The 15 hours per week of manual data entry dropped to approximately 2 hours (edge cases and exceptions that needed human judgment). Tenant portal repair status updates went from weekly to real-time. Contractor payment processing time reduced from an average of 18 days to 5 days because completions were automatically verified and queued for payment. The housing association estimated annual savings of £32,000 in staff time, plus improved tenant satisfaction scores in their next quarterly survey. The integration platform has been running for over a year with 99.7% uptime and has processed over 8,000 repair workflows without manual intervention.</p>
+
+    <h3>Technologies Used</h3>
+    <p>ASP.NET Core Web API, Azure Service Bus, Azure Functions, Dynamics 365 Dataverse API, SignalR, Polly, Azure SQL Database, Azure AD (service principals), Azure Key Vault, Application Insights, Docker, Azure Container Apps.</p>
+    </div>
+
+    <p style="color:var(--text-muted);font-size:0.85rem;font-style:italic;border-top:1px solid var(--border);padding-top:1rem;">These case studies describe real projects with details anonymised to protect client confidentiality. Specific figures are approximate and reflect outcomes as reported at the time of project completion.</p>
+
+</div>
+
+<section>
+    <div class="cta-section fade-up">
+        <h2>Have a Similar Challenge?</h2>
+        <p>Book a free 30-minute discovery call and let's discuss how I can help your organisation.</p>
+        <a href="contact.html" class="btn btn-primary">Get in Touch →</a>
+    </div>
+</section>
+
+</main>
+
+<footer role="contentinfo" class="footer">
+    <div class="container">
+        <div class="footer-bottom">
+            <span>&copy; 2026 Anthony D Johnson. All rights reserved. <a href="privacy.html" style="color:#94a3b8;text-decoration:underline;">Privacy</a> &middot; <a href="terms.html" style="color:#94a3b8;text-decoration:underline;">Terms</a></span>
+            <span>Peterborough, UK &middot; Remote Worldwide</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="cookie-consent.js"></script>
+</body>
+</html>
