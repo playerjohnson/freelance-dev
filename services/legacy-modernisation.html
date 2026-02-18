@@ -68,20 +68,40 @@
 </section>
 
 <div class="article-content fade-up">
+    <h2>The Problem</h2>
+    <p>You have a .NET Framework application that works but nobody wants to touch. It runs on Windows Server 2016, targets .NET Framework 4.6, and uses Web Forms or MVC 5. The original developer left years ago. The codebase has no tests, no documentation, and a deployment process that involves copying files to a server and hoping for the best.</p>
+    <p>The application does its job, and your users depend on it. But it's becoming a liability. Security patches are getting harder to apply. You can't hire developers who want to work on legacy technology. Hosting costs are rising because it needs a dedicated Windows Server. And every feature request takes three times longer than it should because the code is tangled and fragile.</p>
+    <p>You've been told the only option is a full rewrite. That would take 12 to 18 months, cost six figures, and carry enormous risk. There's a better way.</p>
+
     <h2>What You Get</h2>
-    <p>A modernised codebase that's faster, more secure, and easier to maintain. I use the strangler fig pattern to incrementally replace legacy components rather than risky big-bang rewrites. Each phase delivers working software you can test and validate before moving to the next.</p>
+    <p>A modernised codebase that's faster, more secure, and easier to maintain. I use the strangler fig pattern to incrementally replace legacy components rather than risky big-bang rewrites. Each phase delivers working software you can test and validate before moving to the next. At no point is the application in a broken state — your users continue working throughout the process.</p>
+    <p>The end result is a modern .NET 8 application that can run on Linux, deploy to containers or Azure App Service, and be maintained by any .NET developer without specialist legacy knowledge.</p>
 
     <h2>Common Scenarios</h2>
-    <p>Upgrading .NET Framework 4.x apps to .NET 8. Replacing Web Forms with Razor Pages or Blazor. Breaking monolithic applications into smaller, deployable services. Removing dependencies on deprecated libraries. Adding automated tests to untested codebases. Containerising legacy apps for cloud deployment.</p>
+    <p>The modernisation work I do most frequently involves upgrading .NET Framework 4.x applications to .NET 8 while preserving all existing functionality, replacing Web Forms with Razor Pages or Blazor one page at a time, breaking monolithic applications into smaller independently deployable services where the domain boundaries justify it, removing dependencies on deprecated libraries such as Windows Communication Foundation, Entity Framework 6, and OWIN, adding automated test coverage to untested codebases so changes can be made safely, and containerising legacy applications for cloud deployment.</p>
+    <p>I've also modernised VB.NET applications, Classic ASP sites, and hybrid applications that mix multiple .NET versions. The approach is the same regardless of the starting point — understand the current system, identify the highest-value changes, and deliver them incrementally.</p>
 
     <h2>The Risk-Free Approach</h2>
-    <p>Big rewrites fail. They take too long, cost too much, and often introduce more bugs than they fix. Instead, I modernise incrementally — starting with the highest-value, lowest-risk components. You get measurable improvements every sprint, not a promise that things will be better 'in 6 months'.</p>
+    <p>Big rewrites fail. They take too long, cost too much, and often introduce more bugs than they fix. The business requirements drift during the rewrite, so by the time the new system is ready it doesn't match what users actually need. Meanwhile, the old system still needs maintenance, so you're paying for two systems.</p>
+    <p>Instead, I modernise incrementally using the strangler fig pattern. I start with the highest-value, lowest-risk components — often the data access layer, authentication, or a frequently-changed module. Each component is extracted, rewritten in modern .NET, tested, and deployed alongside the legacy code. Over time, the new code gradually replaces the old until nothing remains of the original framework.</p>
+    <p>This approach means you get measurable improvements every sprint. You can stop at any point and still have a working, improved system. And you can validate each change with real users before moving to the next phase.</p>
+
+    <h2>How I Assess Your Codebase</h2>
+    <p>Every modernisation starts with a codebase assessment. I review the solution structure, dependency graph, test coverage (or lack of it), deployment process, and architectural patterns. I use the .NET Upgrade Assistant and try-convert tools to identify the mechanical changes needed, and manual review to assess the deeper structural issues.</p>
+    <p>The assessment produces a prioritised roadmap: which components to modernise first, which dependencies need replacing, what the estimated effort is for each phase, and what the risk profile looks like. This gives you a clear picture of the total investment required and lets you make informed decisions about how far to go and how fast.</p>
+
+    <h2>Example Scenario</h2>
+    <p>A council was running a case management system built in ASP.NET Web Forms targeting .NET Framework 4.5. The application was 8 years old, had no automated tests, and the original development team had moved on. New feature requests were taking 4 to 6 weeks because every change risked breaking something else. I assessed the codebase, identified the core domain logic, and built a modernisation plan. Over 12 weeks, I extracted the business logic into a clean service layer with full test coverage, migrated the data access from ADO.NET to Entity Framework Core, and replaced the most-used Web Forms pages with Razor Pages. The remaining Web Forms pages continued working alongside the new code. Feature velocity tripled and the team could deploy to Azure App Service instead of managing their own IIS server.</p>
 
     <h2>Technologies</h2>
-    <p>.NET 8, ASP.NET Core, Entity Framework Core, Docker, Azure App Service, Windows Compatibility Pack, .NET Upgrade Assistant, API versioning, feature flags.</p>
+    <p>.NET 8, ASP.NET Core, Entity Framework Core, Docker, Azure App Service, Windows Compatibility Pack, .NET Upgrade Assistant, API versioning, feature flags, xUnit, and Moq for testing.</p>
 
     <h2>Pricing</h2>
-    <p>Modernisation assessments from £1,500. Full modernisation projects typically £8,000–£30,000 depending on codebase size and complexity. I'll always give you a realistic estimate after reviewing your code.</p>
+    <p>Modernisation assessments start from £1,500 and take three to five days depending on codebase size. The assessment includes a detailed report with a prioritised roadmap, effort estimates, and risk analysis. Full modernisation projects typically range from £8,000 to £30,000 depending on codebase size and complexity. I'll always give you a realistic estimate after reviewing your code — no optimistic guesses.</p>
+    <p>The assessment fee is deducted from the project cost if you proceed with the modernisation.</p>
+
+    <h2>Related Reading</h2>
+    <p>For a practical overview of the migration process, see my guide to <a href="../blog/dotnet-framework-to-dotnet-8-migration.html">.NET Framework to .NET 8 Migration</a>. My article on <a href="../blog/legacy-modernisation-without-rewrite.html">Legacy Modernisation Without a Full Rewrite</a> explains the strangler fig approach in more detail and covers how to make the business case for modernisation over rewriting.</p>
 </div>
 
 <section>

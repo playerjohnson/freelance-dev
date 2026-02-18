@@ -68,20 +68,39 @@
 </section>
 
 <div class="article-content fade-up">
+    <h2>The Problem</h2>
+    <p>Your team deploys by copying files to a server. Or someone runs a script that only they understand. Builds happen on a developer's laptop and nobody is quite sure which version of the code is in production. Testing is manual, inconsistent, and usually gets skipped when deadlines are tight. Deployments happen on Fridays at 5pm because that's when things are quietest, and everyone holds their breath.</p>
+    <p>This isn't just inefficient — it's risky. Manual deployments introduce human error. Inconsistent testing means bugs reach production. Lack of automation means your team spends hours on work that should take minutes. And when something goes wrong, there's no easy way to roll back.</p>
+
     <h2>What You Get</h2>
-    <p>End-to-end CI/CD pipelines in Azure DevOps or GitHub Actions. Automated builds triggered on every commit, test suites that catch bugs before they reach production, and deployment pipelines that push to staging and production with a single click or automatically.</p>
+    <p>End-to-end CI/CD pipelines in Azure DevOps or GitHub Actions. Automated builds triggered on every commit, test suites that catch bugs before they reach production, and deployment pipelines that push to staging and production with a single click or automatically. Your team ships faster, with fewer bugs, and deployments become a non-event rather than a source of anxiety.</p>
+    <p>Beyond the pipelines themselves, you get infrastructure-as-code so your environments are reproducible, documented runbooks so anyone on your team can manage the process, and monitoring so you know immediately when something goes wrong in production.</p>
 
     <h2>Common Setups</h2>
-    <p>Build pipelines for .NET, Node.js, and Python projects. Release pipelines deploying to Azure App Service, Azure Functions, Azure Kubernetes Service, or on-premise IIS servers. Infrastructure-as-code with Terraform or Bicep. Automated database migrations. Slack/Teams notifications.</p>
+    <p>The most common configurations I build include build pipelines for .NET, Node.js, and Python projects with automated test execution, release pipelines deploying to Azure App Service, Azure Functions, Azure Kubernetes Service, or on-premise IIS servers, infrastructure-as-code with Terraform or Bicep that provisions and configures environments automatically, automated database migrations that run as part of the deployment process, and notifications to Slack or Microsoft Teams so the whole team knows when deployments succeed or fail.</p>
+    <p>For more mature teams, I also set up branch policies that enforce code review before merging, automated code quality checks with SonarQube, container image scanning for security vulnerabilities, and environment-specific configuration management using Azure Key Vault or App Configuration.</p>
+
+    <h2>How I Set It Up</h2>
+    <p>I start by understanding your current workflow — how code gets from a developer's machine to production today, what the pain points are, and what your team is comfortable with. There's no point building a complex Kubernetes deployment pipeline if your team is used to deploying to IIS and doesn't have container experience.</p>
+    <p>From there, I design a pipeline that fits your team's skills and your project's needs. I build it incrementally — starting with automated builds and tests, then adding deployment to a staging environment, then production deployment with approval gates. Each step is tested and documented before moving to the next.</p>
+    <p>The entire pipeline is defined in code (YAML for Azure DevOps, workflow files for GitHub Actions) and stored in your repository. This means it's version-controlled, reviewable, and reproducible. No configuration locked inside a GUI that only one person understands.</p>
 
     <h2>Why It Matters</h2>
-    <p>Teams without CI/CD spend hours manually building, testing, and deploying. Bugs slip through because testing is inconsistent. Deployments are stressful because they're manual and error-prone. A good pipeline eliminates all of this — your team ships faster, with fewer bugs, and less stress.</p>
+    <p>Teams without CI/CD spend hours manually building, testing, and deploying. Bugs slip through because testing is inconsistent. Deployments are stressful because they're manual and error-prone. A well-built pipeline eliminates all of this — your team ships faster, with fewer bugs, and less stress.</p>
+    <p>The compound effect is significant. If your team deploys twice a week and each deployment takes 2 hours of manual work, that's over 200 hours per year spent on a process that should be automated. A CI/CD pipeline typically pays for itself within the first month.</p>
+
+    <h2>Example Scenario</h2>
+    <p>A local authority development team was deploying their .NET applications by building on a developer's machine and copying files to IIS via Remote Desktop. Deployments took 45 minutes, required a specific developer to be available, and occasionally failed silently. I set up Azure DevOps pipelines with automated builds on every pull request, test execution, deployment to a staging slot on Azure App Service, and a one-click swap to production after manual verification. Deployments now take 8 minutes and any team member can trigger them. The staging slot means they can verify changes against production data before going live.</p>
 
     <h2>Technologies</h2>
-    <p>Azure DevOps Pipelines, GitHub Actions, YAML pipelines, Terraform, Bicep, Docker, Azure Container Registry, SonarQube, NuGet, npm, Azure Key Vault, Azure App Configuration.</p>
+    <p>Azure DevOps Pipelines, GitHub Actions, YAML pipelines, Terraform, Bicep, Docker, Azure Container Registry, SonarQube, NuGet, npm, Azure Key Vault, Azure App Configuration, Azure Monitor, Application Insights, and Grafana for dashboards.</p>
 
     <h2>Pricing</h2>
-    <p>Basic CI/CD setup from £2,000. Full DevOps transformation (pipelines, IaC, monitoring, runbooks) from £5,000–£15,000 depending on the number of projects and environments.</p>
+    <p>Basic CI/CD setup for a single project — build pipeline, test execution, deployment to staging and production — starts from £2,000 and typically takes one to two weeks. Full DevOps transformation covering multiple projects, infrastructure-as-code, monitoring dashboards, and team training ranges from £5,000 to £15,000 depending on the number of projects and environments involved.</p>
+    <p>All work is quoted at a fixed price after an initial review of your current setup. I'll always tell you the minimum viable setup that solves your immediate pain, and what a more comprehensive solution would look like, so you can decide how far to go.</p>
+
+    <h2>Related Reading</h2>
+    <p>For a hands-on walkthrough of building Azure DevOps pipelines, see my guide <a href="../blog/azure-devops-pipelines-from-scratch.html">Azure DevOps Pipelines From Scratch</a>. If you're also considering moving your infrastructure to Azure, the <a href="../blog/azure-migration-guide-uk-government.html">Azure Migration Guide for UK Government Teams</a> covers how CI/CD fits into a broader cloud migration strategy.</p>
 </div>
 
 <section>

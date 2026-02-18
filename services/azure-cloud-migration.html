@@ -68,20 +68,41 @@
 </section>
 
 <div class="article-content fade-up">
+    <h2>The Problem</h2>
+    <p>Your organisation is running critical systems on aging on-premise servers or co-located infrastructure. Maintenance costs are rising, hardware is reaching end-of-life, and your team spends too much time patching and firefighting instead of building new capabilities. You know cloud migration is the right move, but the prospect of moving production systems without downtime feels overwhelming.</p>
+    <p>Or you've already started a migration and it's stalled. Maybe the initial cost estimates were wrong, the networking configuration doesn't work with your existing systems, or your team doesn't have the Azure expertise to finish what they started. You need someone who's done this before and can get it back on track.</p>
+
     <h2>What You Get</h2>
     <p>A complete migration from assessment to cutover. I handle infrastructure-as-code with Terraform or Bicep, set up networking and security, configure monitoring and alerts, and ensure your team can manage the new environment independently. Every migration includes a detailed runbook and disaster recovery plan.</p>
+    <p>You also get knowledge transfer throughout the process. I don't just migrate your systems and disappear — I make sure your ops team understands the new architecture, knows how to troubleshoot common issues, and can manage day-to-day operations without external help.</p>
 
     <h2>Who This Is For</h2>
-    <p>Organisations running on-premise servers, aging VMs, or co-located infrastructure who want to reduce costs, improve reliability, and enable remote working. Particularly suited for UK public sector teams who need to meet government cloud-first policies.</p>
+    <p>Organisations running on-premise servers, aging VMs, or co-located infrastructure who want to reduce costs, improve reliability, and enable remote working. This service is particularly suited for UK public sector teams who need to meet government cloud-first policies and maintain compliance with security standards for OFFICIAL and OFFICIAL-SENSITIVE workloads.</p>
+    <p>I've also worked with private sector organisations migrating from shared hosting, dedicated servers, and other cloud providers to Azure. If you're running workloads on AWS or GCP that would benefit from Azure's integration with Active Directory, Microsoft 365, or Dynamics 365, I can handle cross-cloud migrations too.</p>
 
     <h2>My Approach</h2>
-    <p>I start with a Cloud Readiness Assessment — auditing your current systems, mapping dependencies, and identifying the right Azure services for each workload. Then I build a phased migration plan that minimises risk and lets you validate each step before moving on. No big-bang cutovers.</p>
+    <p>Every migration follows a four-phase approach that minimises risk at every step.</p>
+    <p><strong>Phase 1: Cloud Readiness Assessment.</strong> I audit your current estate — every application, database, and service. I map dependencies between systems, identify which workloads are straightforward lift-and-shift candidates, which need re-architecting, and which should be replaced with SaaS alternatives entirely. I use Azure Migrate for automated discovery where possible, supplemented by manual review. The output is a migration plan with clear priorities, cost estimates, and a realistic timeline.</p>
+    <p><strong>Phase 2: Foundation.</strong> Before migrating any workloads, I set up your Azure landing zone. This means configuring virtual networks, subnets, network security groups, firewall rules, and VPN or ExpressRoute connectivity back to your on-premise network. I also configure Azure Policy to enforce compliance guardrails automatically — blocking resources from being created outside UK regions, enforcing encryption at rest, and requiring diagnostic logging on all resources.</p>
+    <p><strong>Phase 3: Phased Migration.</strong> I start with low-risk, low-dependency workloads — development environments, internal tools, file shares. Each workload follows the same pattern: migrate to staging, test thoroughly, run parallel with on-premise, cutover, monitor, decommission old system. This builds confidence and operational knowledge before touching production systems.</p>
+    <p><strong>Phase 4: Optimisation.</strong> Once workloads are running in Azure, I right-size VMs, configure reserved instances for predictable workloads (saving 30 to 60 percent), set up cost management alerts, and schedule non-production environments to shut down outside business hours. This phase typically recovers 20 to 40 percent of the initial Azure spend.</p>
+
+    <h2>Security and Compliance</h2>
+    <p>For government workloads, I sync your on-premise Active Directory to Azure AD using Azure AD Connect, set up conditional access policies, enable multi-factor authentication for all admin accounts, and configure Privileged Identity Management for time-limited elevated access. All of this is documented and auditable.</p>
+    <p>I ensure every migration meets the security requirements for your classification level. For OFFICIAL workloads, this means UK-region data residency, encryption in transit and at rest, and network segmentation. I'll also configure Azure Defender and Sentinel if you need advanced threat detection.</p>
 
     <h2>Technologies Used</h2>
-    <p>Azure App Service, Azure SQL, Azure Functions, Azure Virtual Machines, Azure Storage, Azure Active Directory, Terraform, Bicep, Azure DevOps, Azure Monitor, Application Insights, Key Vault, Front Door.</p>
+    <p>Azure App Service, Azure SQL, Azure Functions, Azure Virtual Machines, Azure Storage, Azure Active Directory, Terraform, Bicep, Azure DevOps, Azure Monitor, Application Insights, Key Vault, Front Door, Azure Firewall, ExpressRoute, and Azure Migrate.</p>
+
+    <h2>Common Pitfalls I Help You Avoid</h2>
+    <p>Underestimating bandwidth requirements for the migration itself. Forgetting to account for data egress costs. Not training the ops team before cutover. Migrating without modernising — if you lift-and-shift a poorly architected system, you just get a poorly architected system in the cloud that costs more. Choosing oversized VM SKUs because "we might need the headroom" and then paying for capacity you never use.</p>
 
     <h2>Pricing</h2>
-    <p>Cloud readiness assessments from £2,000. Full migrations priced per project based on complexity — typically £5,000–£25,000 for small to medium environments. Book a free discovery call to get a tailored estimate.</p>
+    <p>Cloud readiness assessments start from £2,000 and typically take one to two weeks depending on the size of your estate. Full migrations are priced per project based on complexity — typically £5,000 to £25,000 for small to medium environments. Large-scale migrations involving 20 or more applications are quoted individually after the assessment phase.</p>
+    <p>All pricing is fixed-quote after the assessment, so there are no surprises. The assessment fee is deducted from the migration cost if you proceed.</p>
+
+    <h2>Related Reading</h2>
+    <p>For a step-by-step walkthrough of the migration process, read my <a href="../blog/azure-migration-guide-uk-government.html">Azure Migration Guide for UK Government Teams</a>. If you're also considering modernising your CI/CD pipeline as part of the migration, see <a href="../blog/azure-devops-pipelines-from-scratch.html">Azure DevOps Pipelines From Scratch</a>.</p>
 </div>
 
 <section>

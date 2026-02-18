@@ -68,20 +68,38 @@
 </section>
 
 <div class="article-content fade-up">
+    <h2>The Problem</h2>
+    <p>Your systems don't talk to each other. Customer data lives in one place, order data in another, and financial data in a third. Your team spends hours each week manually exporting CSVs, copying data between systems, and reconciling discrepancies. When a new system needs data from an existing one, someone builds a quick integration that works until it doesn't — and then breaks silently.</p>
+    <p>Or you need to build an API for a new product or service, but you're not sure how to design it for scale, handle authentication properly, or make it reliable enough for external consumers to depend on. You need someone who's built APIs that handle real production traffic and understands the difference between a prototype and a production system.</p>
+
     <h2>What You Get</h2>
-    <p>Well-documented, thoroughly tested APIs that your team and partners can rely on. I follow REST best practices, implement proper authentication (OAuth 2.0, API keys), handle versioning, and include comprehensive Swagger/OpenAPI documentation.</p>
+    <p>Well-documented, thoroughly tested APIs that your team and partners can rely on. I follow REST best practices, implement proper authentication using OAuth 2.0, API keys, or JWT depending on your use case, handle versioning so existing consumers aren't broken by changes, and include comprehensive Swagger/OpenAPI documentation that developers can use without needing to ask questions.</p>
+    <p>For integrations, you get reliable connections between your systems that handle failures gracefully. When a third-party API goes down — and it will — your integration retries, logs the failure, and alerts your team instead of silently dropping data.</p>
 
     <h2>Common Projects</h2>
-    <p>Building API backends for web and mobile apps. Integrating with payment providers (Stripe, GoCardless). Connecting CRM systems (Dynamics 365, Salesforce). Government service integrations (GOV.UK Notify, GDS APIs). Data synchronisation between legacy systems and modern platforms.</p>
+    <p>The integration and API work I do most often includes building API backends for web and mobile applications with proper authentication, rate limiting, and monitoring, integrating with payment providers such as Stripe and GoCardless for billing automation, connecting CRM systems like Dynamics 365 or Salesforce to internal tools and databases, implementing government service integrations including GOV.UK Notify for email and SMS, GDS APIs, and Companies House lookups, data synchronisation between legacy systems and modern platforms where real-time or near-real-time consistency is required, and building webhook receivers and event-driven integrations using Azure Service Bus or RabbitMQ.</p>
+    <p>I've also built APIs consumed by third parties — where documentation quality, reliability, and backwards compatibility matter even more because your consumers are external developers you can't easily contact when something changes.</p>
 
-    <h2>Reliability Built In</h2>
-    <p>APIs fail. Third-party services go down. Networks are unreliable. I build for this reality — with retry policies (Polly), circuit breakers, health checks, structured logging, and alerting. Your integrations won't silently fail at 2am.</p>
+    <h2>How I Build Reliable Integrations</h2>
+    <p>APIs fail. Third-party services go down. Networks are unreliable. I build for this reality using a set of patterns that ensure your integrations degrade gracefully rather than failing catastrophically.</p>
+    <p><strong>Retry policies</strong> using Polly handle transient failures automatically. If a third-party API returns a timeout or 500 error, the request is retried with exponential backoff rather than immediately failing. <strong>Circuit breakers</strong> prevent cascading failures — if a downstream service is consistently failing, the circuit breaker stops sending requests to it and returns a sensible fallback instead of hammering a struggling system. <strong>Health checks</strong> give you real-time visibility into the status of every integration endpoint. <strong>Structured logging</strong> with Serilog means every API call, response, and error is recorded with full context so you can diagnose issues quickly when they occur.</p>
+
+    <h2>API Design Principles</h2>
+    <p>Good API design makes the difference between an API that developers love and one that generates endless support tickets. I follow a consistent set of principles: resource-oriented URLs that are intuitive without documentation, consistent error responses that include error codes, messages, and guidance on how to fix the issue, pagination for list endpoints so large datasets don't overwhelm consumers, proper use of HTTP status codes so clients can implement reliable error handling, and versioning from day one so you can evolve the API without breaking existing consumers.</p>
+    <p>Every API I build comes with Swagger/OpenAPI documentation generated directly from the code. This means the documentation is always accurate and in sync with the actual implementation — not a separate document that slowly drifts out of date.</p>
+
+    <h2>Example Scenario</h2>
+    <p>A housing association needed to connect their property management system to a new tenant portal. The property system had no API — it stored data in SQL Server and exposed it through a legacy desktop client. I built a REST API layer on top of the existing database using ASP.NET Core, implemented read-only endpoints for property details, tenancy information, and repair requests, and added write endpoints for new repair requests and tenant contact updates. The API used JWT authentication, rate limiting, and comprehensive logging. The tenant portal team consumed the API using the auto-generated Swagger documentation and was able to build their frontend without any direct coordination after the initial design session.</p>
 
     <h2>Technologies</h2>
-    <p>ASP.NET Core Web API, Minimal APIs, HttpClientFactory, Polly, MassTransit, Azure Service Bus, Azure Functions, Swagger/OpenAPI, OAuth 2.0, JWT, API Management.</p>
+    <p>ASP.NET Core Web API, Minimal APIs, HttpClientFactory, Polly for resilience, MassTransit for message-based integration, Azure Service Bus, Azure Functions for event-driven processing, Swagger/OpenAPI, OAuth 2.0, JWT, Azure API Management for external-facing APIs, and Application Insights for monitoring and diagnostics.</p>
 
     <h2>Pricing</h2>
-    <p>Simple API development from £3,000. Complex integrations with multiple third-party systems from £5,000–£15,000. Priced per project after a detailed requirements review.</p>
+    <p>Simple API development — a straightforward CRUD API with authentication and documentation — starts from £3,000. Complex integrations involving multiple third-party systems, data transformation, error handling, and monitoring typically range from £5,000 to £15,000. Projects are priced individually after a detailed requirements review where I understand the systems involved, data volumes, and reliability requirements.</p>
+    <p>I provide a fixed-price quote before work begins. If you need ongoing maintenance of integrations after delivery, I offer retainer arrangements at a discounted rate.</p>
+
+    <h2>Related Reading</h2>
+    <p>If you're building APIs as part of a broader modernisation effort, my article on <a href="../blog/legacy-modernisation-without-rewrite.html">Legacy Modernisation Without a Full Rewrite</a> covers how API layers can be used to gradually decouple legacy systems. For teams setting up deployment pipelines for API projects, see <a href="../blog/azure-devops-pipelines-from-scratch.html">Azure DevOps Pipelines From Scratch</a>.</p>
 </div>
 
 <section>
