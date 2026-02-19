@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://playerjohnson.github.io/freelance-dev/sitemap.xml
+Sitemap: https://anthonyjohnson.dev/freelance-dev/sitemap.xml
