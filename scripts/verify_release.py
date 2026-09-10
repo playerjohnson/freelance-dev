@@ -64,6 +64,7 @@ def main():
     sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     paths = sorted(p for p in ROOT.rglob("*.html") if not any(part.startswith(".") for part in p.relative_to(ROOT).parts))
     paths += [ROOT / name for name in ("css/style.css", "js/main.js", "cookie-consent.js", "sitemap.xml", "robots.txt", "favicon.svg", "og-image.png")]
+    paths += [path for path in sorted((ROOT / "js").glob("*.js")) if path not in paths]
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
         results = list(pool.map(compare, paths))
     status, final, _, _, _ = retrieve(BASE.rstrip("/"))
