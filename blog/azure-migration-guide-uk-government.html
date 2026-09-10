@@ -74,8 +74,8 @@
 <p>Migrating government systems to the cloud isn't just a technology decision — it's a strategic shift that affects security, compliance, procurement, and the way your entire team works. This guide covers practical considerations for planning a council cloud migration.</p>
 
     <h2>Why Azure for Government?</h2>
-    <p>Azure is the dominant cloud platform in UK government for good reason. Microsoft has UK-based data centres (UK South and UK West), holds G-Cloud framework accreditation, and meets the security standards required for OFFICIAL and OFFICIAL-SENSITIVE classified workloads. It also integrates natively with Active Directory, which most councils already use.</p>
-    <p>Beyond the technical fit, Azure's presence on the G-Cloud framework simplifies procurement. You can purchase Azure services through the Digital Marketplace without running a full tender process, which reduces the time from approval to deployment from months to weeks. Crown Commercial Service framework agreements cover most Azure services, making budget approval significantly easier.</p>
+    <p>Assess Azure against your workload, residency, identity and operational requirements. Microsoft publishes <a href="https://learn.microsoft.com/en-us/compliance/regulatory/offering-g-cloud-uk">UK G-Cloud scope and compliance information</a>. In-scope provider services can support government workloads, but customers remain responsible for the components and configuration they operate.</p>
+    <p>Confirm the current framework, lot, service listing and buying process with your procurement team. G-Cloud inclusion is not a blanket security approval or a guarantee of a particular procurement timescale.</p>
     <p>The alternative cloud providers — AWS and GCP — are both capable platforms, but Azure's integration with the Microsoft ecosystem that most councils already run (Office 365, Active Directory, Dynamics 365, SharePoint) makes it the path of least resistance. If your organisation is already paying for Microsoft 365, you likely have Azure AD capabilities you're not using.</p>
 
     <h2>Step 1: Cloud Readiness Assessment</h2>
@@ -87,13 +87,13 @@
     <h2>Step 2: Network and Security Foundation</h2>
     <p>Set up your Azure landing zone before migrating any workloads. This means configuring virtual networks, subnets, network security groups, Azure Firewall or equivalent, and VPN or ExpressRoute connectivity back to your on-premise network. Get this right first — retrofitting networking after migration is painful and risky.</p>
     <p>For government workloads, enable Azure Policy to enforce compliance guardrails automatically. The policies I configure for every council migration include blocking resource creation outside UK South and UK West regions, enforcing encryption at rest on all storage accounts and databases, requiring diagnostic logging on all resources, preventing public IP addresses on VMs unless explicitly approved, and enforcing tagging standards so cost allocation is clear from day one.</p>
-    <p>If you're handling OFFICIAL-SENSITIVE data, you'll also need to configure Azure Private Link for PaaS services, ensuring traffic between your applications and Azure SQL, Storage, and Key Vault never traverses the public internet. This adds complexity but is a non-negotiable requirement for many government classifications.</p>
+    <p>Choose private endpoints, network restrictions and other controls from the workload's risk assessment and the organisation's security requirements. Classification alone does not define a complete architecture; check the selected services, configuration and assurance evidence.</p>
     <p>Network connectivity between on-premise and Azure is typically the first decision point. VPN is cheaper and faster to set up but has bandwidth limitations and higher latency. ExpressRoute provides a dedicated private connection with guaranteed bandwidth but costs significantly more and takes weeks to provision. For most council migrations, I start with VPN and move to ExpressRoute only if performance requirements demand it.</p>
 
     <h2>Step 3: Identity and Access</h2>
-    <p>Sync your on-premise Active Directory to Azure AD using Azure AD Connect. Set up conditional access policies, enable multi-factor authentication for all admin accounts (ideally all users), and configure Privileged Identity Management for time-limited admin access.</p>
-    <p>Conditional access is where most councils underinvest. At minimum, you should configure policies that require MFA for all admin access, block sign-ins from countries where you don't operate, require compliant devices for access to sensitive applications, and enforce session timeouts for high-privilege roles. These policies cost nothing to implement but dramatically reduce your attack surface.</p>
-    <p>For councils with existing Azure AD tenants (which most have through Microsoft 365), the sync process is straightforward. The tricky part is deciding what to sync — you probably don't want every AD object in Azure AD. Plan your organisational unit filtering carefully and test with a subset before enabling full sync.</p>
+    <p>Plan hybrid identity using Microsoft Entra ID and an appropriate synchronisation approach for your estate. Test a limited scope first, define emergency access, and agree multifactor authentication and privileged-access controls before rollout.</p>
+    <p>Conditional Access is a licensed feature. <a href="https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview">Microsoft's licensing guidance</a> specifies Entra ID P1 for Conditional Access and P2 for risk-based policies. Check existing entitlements and dependencies such as device management. Pilot policies and protect emergency access before enforcing them.</p>
+    <p>Review which on-premise identities and attributes need synchronising to Microsoft Entra ID. Avoid assuming that every directory object belongs in the cloud; document filtering and test representative users and applications.</p>
 
     <h2>Step 4: Phased Migration</h2>
     <p>Never do a big-bang migration. Start with low-risk, low-dependency workloads — development environments, internal tools, file shares. Build confidence and operational knowledge before touching production systems.</p>
@@ -102,7 +102,7 @@
     <p>I typically plan council migrations in waves of 3 to 5 applications, with two weeks between waves. This gives the ops team time to stabilise each wave before the next one arrives. Trying to migrate everything simultaneously overwhelms the team and multiplies risk.</p>
 
     <h2>Step 5: Cost Management</h2>
-    <p>Cloud costs catch people off guard. Set up Azure Cost Management from day one. Configure budgets and alerts. Use reserved instances for predictable workloads (saving 30 to 60 percent versus pay-as-you-go). Right-size VMs — most teams over-provision initially because they're afraid of under-performing. Schedule non-production environments to shut down outside business hours — this alone typically saves 40 to 50 percent on dev and test environments.</p>
+    <p>Build a workload-specific cost model using current service prices and measured utilisation. Consider reservations only where the commitment suits the workload, and schedule non-production shutdowns only where operational needs allow. Validate savings instead of assuming a fixed percentage.</p>
     <p>The most common cost mistakes I see in council migrations are choosing oversized VM SKUs because the equivalent spec doesn't exist (a 32GB RAM server doesn't need a 32GB Azure VM if it was only using 8GB), leaving orphaned resources running after decommissioning old configurations, not using reserved instances for workloads that run 24/7, and running premium-tier services where standard tier would suffice.</p>
     <p>I build cost monitoring into every migration from the start. Weekly cost reviews during the migration phase, monthly reviews after stabilisation, and automated alerts when spending exceeds 80 percent of budget. The goal is to have cloud costs be predictable and controlled, not a monthly surprise.</p>
 
@@ -116,8 +116,8 @@
 
     <h2>Need Help?</h2>
     <p>I offer <a href="../services/azure-cloud-migration.html">cloud readiness assessments and full migration services</a> for UK government teams. If you're planning a migration and want to avoid the common pitfalls, <a href="../contact.html">get in touch</a> for a free 30-minute discovery call. I'll give you an honest assessment of your readiness and a realistic timeline for your specific situation.</p>
-</article>
 </div>
+</article>
 
 <section>
     <div class="cta-section fade-up">
@@ -127,7 +127,7 @@
     </div>
 </section>
 
-    <time datetime="2026-09-10" class="sr-only">Experience wording updated 10 September 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">

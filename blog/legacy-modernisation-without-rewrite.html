@@ -76,12 +76,12 @@
     <h2>Why Full Rewrites Fail</h2>
     <p>The legacy system has years of bug fixes, edge case handling, and domain knowledge baked in. A rewrite throws all of this away. The original developers have moved on, and nobody fully understands why certain things work the way they do. During the rewrite, someone will inevitably say "let's also redesign the workflow while we're at it" and suddenly you're not just rebuilding the technology — you're redesigning the business process too.</p>
     <p>Meanwhile, the old system still needs maintaining, so you're paying for two systems at once. Bug fixes and feature requests don't stop just because you've started a rewrite. Your team is now split between keeping the old system running and building the new one, and neither gets enough attention.</p>
-    <p>The timeline always expands. Full rewrites are typically estimated at 6 to 12 months and actually take 18 to 36 months. The complexity that made the old system messy doesn't disappear in the new one — it resurfaces in different ways as the team rediscovers edge cases, integration requirements, and business rules that weren't documented anywhere except in the old code. By the time the rewrite is ready, the requirements have drifted and the new system doesn't match what users actually need.</p>
+    <p>A rewrite can uncover undocumented business rules and integration dependencies. Include discovery and contingency in the estimate, and compare the cost and risk of replacement with incremental changes.</p>
     <p>Incremental modernisation lets teams validate changes in smaller stages. Big-bang rewrites can introduce risks around scope, delivery dates, and budget.</p>
 
     <h2>The Strangler Fig Pattern</h2>
     <p>Named after tropical fig trees that gradually envelop their host, this pattern replaces legacy components one at a time. New functionality is built in the modern stack. Old functionality is migrated piece by piece. A routing layer directs traffic to either the old or new system depending on which component has been migrated. Eventually, the old system has nothing left and can be switched off.</p>
-    <p>The beauty of this approach is that it's reversible at every step. If a migrated component has issues, you can route traffic back to the old version while you fix it. There's never a point where the entire system is in an uncertain state. Users continue working throughout the process, and each migration step delivers measurable improvement.</p>
+    <p>Incremental routing can support rollback while the old implementation remains compatible. Shared data, irreversible schema changes and decommissioned components can prevent a simple reversal. Define and test the recovery path for each stage; see <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig">Microsoft's Strangler Fig guidance</a> for coexistence and data-migration considerations.</p>
     <p>The pattern works regardless of your starting technology. I've used it to migrate ASP.NET Web Forms to Razor Pages, VB.NET desktop apps to web applications, Classic ASP to ASP.NET Core, and monolithic .NET Framework services to smaller .NET 8 microservices. The implementation details vary, but the principle is the same: replace incrementally, validate at each step, and never break the production system.</p>
 
     <h2>Where to Start</h2>
@@ -113,8 +113,8 @@
 
     <h2>Need Help?</h2>
     <p>I specialise in <a href="../services/legacy-modernisation.html">incremental legacy modernisation</a> for .NET applications. If you're facing a legacy system that's holding your team back and want to explore modernisation options, <a href="../contact.html">get in touch</a> for a free 30-minute discovery call. I'll give you an honest assessment of what's involved and whether the strangler fig approach is right for your situation.</p>
-</article>
 </div>
+</article>
 
 <section>
     <div class="cta-section fade-up">
@@ -124,7 +124,7 @@
     </div>
 </section>
 
-    <time datetime="2026-09-10" class="sr-only">Experience wording updated 10 September 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">
