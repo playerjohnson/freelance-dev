@@ -32,7 +32,7 @@ Static validation covers local URLs and fragments, IDs, page canonicals, Open Gr
 ## Verify a release
 
 1. Record the merge SHA and wait for Pages build/deploy success at that SHA.
-2. Check `Verify public release`. It performs GET requests only within the freelance subpath, compares the public HTML and local assets with the checkout, checks the slashless redirect and expects 404 for a missing page. It refuses redirects outside this site. It never runs tracking scripts, contacts Formspree or submits a form.
+2. Check `Verify public release`. A successful main `Site checks` run triggers it; it then waits for GitHub's Pages run at the same commit using read-only repository Actions access. The public-file check performs GET requests only within the freelance subpath, compares the public HTML and local assets with the checkout, checks the slashless redirect and expects 404 for a missing page. It refuses redirects outside this site. It never runs tracking scripts, contacts Formspree or submits a form.
 3. A superseded release is explicitly skipped, not verified. Find the newer main run. If bytes differ, investigate a failed or stale deployment before retrying; do not rebuild repeatedly without a reason.
 4. Inspect the live homepage, contact page and an affected nested page in a browser. Check navigation, keyboard focus, local assets and error/status presentation. Do not equate a successful HTTP check with a complete browser journey.
 
