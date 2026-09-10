@@ -2,13 +2,14 @@ name: Verify public release
 
 on:
   workflow_run:
-    workflows: ['pages build and deployment']
+    workflows: ['Site checks']
     types: [completed]
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: verify-public-release
@@ -37,6 +38,11 @@ jobs:
             echo "current=false" >> "$GITHUB_OUTPUT"
             echo "Superseded release: public verification skipped." >> "$GITHUB_STEP_SUMMARY"
           fi
+      - name: Wait for Pages at this commit
+        if: steps.current.outputs.current == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/wait_for_pages.py
       - name: Verify public files, redirect and 404
         if: steps.current.outputs.current == 'true'
         run: python3 scripts/verify_release.py
