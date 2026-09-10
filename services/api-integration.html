@@ -95,9 +95,6 @@
     <p>Good API design makes the difference between an API that developers love and one that generates endless support tickets. I follow a consistent set of principles: resource-oriented URLs that are intuitive without documentation, consistent error responses that include error codes, messages, and guidance on how to fix the issue, pagination for list endpoints so large datasets don't overwhelm consumers, proper use of HTTP status codes so clients can implement reliable error handling, and versioning from day one so you can evolve the API without breaking existing consumers.</p>
     <p>Every API I build comes with Swagger/OpenAPI documentation generated directly from the code. This means the documentation is always accurate and in sync with the actual implementation — not a separate document that slowly drifts out of date.</p>
 
-    <h2>Example Scenario</h2>
-    <p>A housing association needed to connect their property management system to a new tenant portal. The property system had no API — it stored data in SQL Server and exposed it through a legacy desktop client. I built a REST API layer on top of the existing database using ASP.NET Core, implemented read-only endpoints for property details, tenancy information, and repair requests, and added write endpoints for new repair requests and tenant contact updates. The API used JWT authentication, rate limiting, and comprehensive logging. The tenant portal team consumed the API using the auto-generated Swagger documentation and was able to build their frontend without any direct coordination after the initial design session.</p>
-
     <h2>Technologies</h2>
     <p>ASP.NET Core Web API, Minimal APIs, HttpClientFactory, Polly for resilience, MassTransit for message-based integration, Azure Service Bus, Azure Functions for event-driven processing, Swagger/OpenAPI, OAuth 2.0, JWT, Azure API Management for external-facing APIs, and Application Insights for monitoring and diagnostics.</p>
 
@@ -108,8 +105,8 @@
     <h2>Related Reading</h2>
     <p>If you're building APIs as part of a broader modernisation effort, my article on <a href="../blog/legacy-modernisation-without-rewrite.html">Legacy Modernisation Without a Full Rewrite</a> covers how API layers can be used to gradually decouple legacy systems. For teams setting up deployment pipelines for API projects, see <a href="../blog/azure-devops-pipelines-from-scratch.html">Azure DevOps Pipelines From Scratch</a>.</p>
 
-    <h2>See It in Action</h2>
-    <p>Read how I applied this approach on a real project: <a href="../case-studies.html#api-integration" style="color:#f59e0b;font-weight:600;">Housing Association API Integration →</a></p>
+    <h2>Discuss Relevant Work</h2>
+    <p>Ask about work relevant to your project. I can explain my role and share supporting material where I have permission. <a href="../case-studies.html#api-integration" style="color:#f59e0b;font-weight:600;">Discuss relevant work →</a></p>
 </div>
 
 <section>
