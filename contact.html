@@ -66,7 +66,7 @@
 
 <section style="padding-top: 0;">
     <div class="container">
-        <div class="contact-grid fade-up">
+        <div class="contact-grid">
             <form id="contact-form" action="https://formspree.io/f/mzdarrey" method="POST">
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -108,6 +108,8 @@
                 <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
                 <p style="font-size:0.8rem;color:var(--text-muted);margin:0.5rem 0 1rem;">By submitting this form, you consent to me processing your details to respond to your enquiry. See my <a href="privacy.html" style="color:#f59e0b;">Privacy Policy</a>.</p>
                 <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message →</button>
+                <p id="contact-status" class="form-status" role="status" aria-live="polite" aria-atomic="true"></p>
+                <p class="form-help">You can also <a href="mailto:johnsons496@googlemail.com">email me directly</a>.</p>
             </form>
             <div class="contact-info-cards">
                 <div class="contact-info-card">

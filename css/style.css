@@ -644,6 +644,16 @@ p { color: var(--text-secondary); }
     border-color: var(--accent);
 }
 .form-group textarea { min-height: 140px; resize: vertical; }
+.form-status {
+    min-height: 1.7em;
+    margin-top: 16px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+.form-status[data-state="error"] { color: #fca5a5; }
+.form-status[data-state="success"] { color: #86efac; }
+.form-help { margin-top: 8px; font-size: 0.95rem; }
+.form-help a { color: var(--accent); text-decoration: underline; }
 .contact-info-cards { display: flex; flex-direction: column; gap: 16px; }
 .contact-info-card {
     background: var(--bg-card);
