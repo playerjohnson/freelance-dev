@@ -1,0 +1,42 @@
+name: Verify public release
+
+on:
+  workflow_run:
+    workflows: ['pages build and deployment']
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-public-release
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          persist-credentials: false
+      - name: Check whether the release has been superseded
+        id: current
+        run: |
+          git fetch --no-tags origin main
+          if [ "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "current=false" >> "$GITHUB_OUTPUT"
+            echo "Superseded release: public verification skipped." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Verify public files, redirect and 404
+        if: steps.current.outputs.current == 'true'
+        run: python3 scripts/verify_release.py
