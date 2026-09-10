@@ -1,28 +1,44 @@
 // Nav scroll effect
 const nav = document.querySelector('.nav');
-window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-});
+if (nav) {
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+}
 
 // Mobile toggle
 const toggle = document.querySelector('.nav-toggle');
 const links = document.querySelector('.nav-links');
-if (toggle) {
+if (nav && toggle && links) {
+    const setMenuOpen = (open) => {
+        links.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        toggle.textContent = open ? '✕' : '☰';
+    };
     toggle.addEventListener('click', () => {
-        links.classList.toggle('open');
-        toggle.textContent = links.classList.contains('open') ? '✕' : '☰';
+        setMenuOpen(!links.classList.contains('open'));
     });
-}
-
-// Scroll reveal
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+    links.addEventListener('click', (event) => {
+        if (event.target.closest('a')) setMenuOpen(false);
+    });
+    nav.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && links.classList.contains('open')) {
+            setMenuOpen(false);
+            toggle.focus();
         }
     });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    if (window.matchMedia) {
+        const mobile = window.matchMedia('(max-width: 768px)');
+        const resetMenu = () => setMenuOpen(false);
+        if (mobile.addEventListener) mobile.addEventListener('change', resetMenu);
+    }
+    setMenuOpen(false);
+    // Hide mobile links only once their disclosure control is ready.
+    nav.classList.add('nav-menu-ready');
+}
+
+// Content is visible by default; it never depends on a scroll observer.
 
 // Enhance the native form only when requests can be cancelled.
 const form = document.querySelector('#contact-form');

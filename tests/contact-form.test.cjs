@@ -40,7 +40,6 @@ function fixture({ fetchImpl, valid = true, enhanced = true } = {}) {
             },
             querySelectorAll() { return []; }
         },
-        IntersectionObserver: class { observe() {} },
         FormData: class {
             constructor() {
                 this.values = Object.fromEntries(fields.filter(field => !field.disabled)
