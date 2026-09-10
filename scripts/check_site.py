@@ -17,6 +17,7 @@ class Page(HTMLParser):
         self.ids = []
         self.links = []
         self.canonicals = []
+        self.og_urls = []
         self.schemas = []
         self.h1s = 0
         self.schema = None
@@ -30,6 +31,8 @@ class Page(HTMLParser):
             self.h1s += 1
         if tag == "link" and attrs.get("rel") == "canonical":
             self.canonicals.append(attrs.get("href"))
+        if tag == "meta" and attrs.get("property") == "og:url":
+            self.og_urls.append(attrs.get("content"))
         for key in ("href", "src", "action"):
             if attrs.get(key):
                 self.links.append(attrs[key])
@@ -76,6 +79,8 @@ def validate():
             canonical = BASE if name == "index.html" else url
             if page.canonicals != [canonical] or page.h1s != 1 or "main-content" not in page.ids:
                 raise ValueError(f"{name}: invalid canonical, h1 or main landmark")
+            if page.og_urls != [canonical]:
+                raise ValueError(f"{name}: Open Graph URL differs from canonical")
             for schema in page.schemas:
                 if schema.get("url") != canonical:
                     raise ValueError(f"{name}: structured data URL differs from canonical")
