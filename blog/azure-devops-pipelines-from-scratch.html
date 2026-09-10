@@ -35,7 +35,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/azure-devops-pipelines-from-scratch.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-02-18"
+        "dateModified": "2026-09-10"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -75,7 +75,7 @@
 
     <h2>Why YAML Pipelines?</h2>
     <p>Azure DevOps supports both the classic GUI editor and YAML pipelines. Use YAML. It lives in your repository alongside your code, so it's version controlled, reviewable in pull requests, and portable. When someone asks "what does the pipeline do?" the answer is in the repo, not locked inside a GUI that requires Azure DevOps admin access to view.</p>
-    <p>The classic editor has its uses for learning and experimentation, but YAML is the standard for production pipelines. It supports everything the classic editor does, plus templating, conditional logic, and reusable pipeline components that make managing multiple projects significantly easier. If you have 10 .NET projects, you can define a shared pipeline template once and reference it from each project rather than maintaining 10 separate classic pipelines.</p>
+    <p>Choose pipeline features against the project's requirements. YAML keeps pipeline definitions in source control and supports reusable templates, but YAML and Classic do not have identical capabilities. Check <a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/get-started/pipelines-get-started?view=azure-devops">Microsoft's feature comparison</a> before moving an existing pipeline.</p>
     <p>YAML pipelines also integrate naturally with your branching strategy. You can define different pipeline behaviour for different branches — running full test suites on pull requests, deploying to staging on merges to develop, and deploying to production on merges to main. All of this is defined declaratively in the YAML file, visible to everyone on the team.</p>
 
     <h2>Build Pipeline Basics</h2>
@@ -88,7 +88,7 @@
     <p>For deployment, I use multi-stage YAML pipelines. Stage 1 builds and tests. Stage 2 deploys to staging with automatic approval. Stage 3 deploys to production with a manual approval gate. Each stage references the artifact from Stage 1, ensuring you deploy exactly what you tested.</p>
     <p>The manual approval gate for production is important even if you trust your tests. It gives the team a chance to verify the staging deployment, run any manual checks they want, and confirm that the timing is right for a production release. For government teams, it also provides an audit trail showing who approved each production deployment and when — useful for change management processes and incident investigations.</p>
     <p>For Azure App Service deployments, I strongly recommend using deployment slots. Deploy to a staging slot first, verify the deployment, then swap the staging and production slots. The swap is near-instantaneous and, crucially, reversible — if the production deployment has issues, you can swap back to the previous version in seconds. This is dramatically safer than deploying directly to production.</p>
-    <p>If your application uses a database, include database migration as a pipeline step. Entity Framework Core migrations can run as part of the deployment — apply pending migrations to the staging database, verify the application works, then apply the same migrations to production before the slot swap. This ensures database changes and code changes are always in sync.</p>
+    <p>Treat database deployment as a separately reviewed release step. Inspect generated SQL or migration bundles, test against a representative non-production database and verify a recovery plan. Keep schema changes compatible with both application versions during a slot swap; swapping application slots does not roll back the database. See <a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying">Microsoft's production migration guidance</a>.</p>
 
     <h2>Infrastructure as Code</h2>
     <p>Don't create Azure resources manually through the portal. Use Terraform or Bicep in your pipeline to create and update infrastructure. This means your staging and production environments are guaranteed identical (eliminating the "works in staging, breaks in production" problem), new environments can be spun up in minutes for testing or disaster recovery, infrastructure changes go through the same code review process as application changes, and your entire environment is documented in code rather than in someone's memory.</p>
@@ -111,8 +111,8 @@
     <h2>Getting Started</h2>
     <p>If this feels overwhelming, start simple. Get a build pipeline running that restores, builds, and tests on every push. That alone catches most bugs before they reach production. Add deployment automation next. Then infrastructure as code. Then quality gates. Each step delivers value independently — the perfect pipeline is the enemy of the good pipeline.</p>
     <p>If you want hands-on help setting up Azure DevOps pipelines for your team, I offer a <a href="../services/devops-pipelines.html">dedicated DevOps and CI/CD service</a>. A basic pipeline setup typically takes one to two weeks and transforms how your team ships software. <a href="../contact.html">Get in touch</a> if you'd like to discuss your setup.</p>
-</article>
 </div>
+</article>
 
 <section>
     <div class="cta-section fade-up">
@@ -122,7 +122,7 @@
     </div>
 </section>
 
-    <time datetime="2026-02" class="sr-only">Last updated February 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">

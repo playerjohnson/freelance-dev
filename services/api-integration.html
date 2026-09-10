@@ -34,7 +34,7 @@
     "name": "United Kingdom"
   },
   "url": "https://anthonyjohnson.dev/freelance-dev/services/api-integration.html",
-  "dateModified": "2026-02-18"
+  "dateModified": "2026-09-10"
 }</script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
 </head>
@@ -86,7 +86,7 @@
 
     <h2>How I Build Reliable Integrations</h2>
     <p>APIs fail. Third-party services go down. Networks are unreliable. I build for this reality using a set of patterns that ensure your integrations degrade gracefully rather than failing catastrophically.</p>
-    <p><strong>Retry policies</strong> using Polly handle transient failures automatically. If a third-party API returns a timeout or 500 error, the request is retried with exponential backoff rather than immediately failing. <strong>Circuit breakers</strong> prevent cascading failures — if a downstream service is consistently failing, the circuit breaker stops sending requests to it and returns a sensible fallback instead of hammering a struggling system. <strong>Health checks</strong> give you real-time visibility into the status of every integration endpoint. <strong>Structured logging</strong> with Serilog means every API call, response, and error is recorded with full context so you can diagnose issues quickly when they occur.</p>
+    <p><strong>Retry policies</strong> need bounded attempts, backoff and operation-specific rules. A timeout can occur after an operation succeeded, so retrying a write requires idempotency or duplicate detection. <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/retry">Microsoft's retry guidance</a> explains these trade-offs. <strong>Circuit breakers</strong> limit repeated calls to failing dependencies. <strong>Health checks and structured logs</strong> help diagnosis, with sensitive fields redacted and retention agreed for the service.</p>
 
     <h2>API Design Principles</h2>
     <p>Good API design makes the difference between an API that developers love and one that generates endless support tickets. I follow a consistent set of principles: resource-oriented URLs that are intuitive without documentation, consistent error responses that include error codes, messages, and guidance on how to fix the issue, pagination for list endpoints so large datasets don't overwhelm consumers, proper use of HTTP status codes so clients can implement reliable error handling, and versioning from day one so you can evolve the API without breaking existing consumers.</p>
@@ -117,7 +117,7 @@
     </div>
 </section>
 
-    <time datetime="2026-02" class="sr-only">Last updated February 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">
