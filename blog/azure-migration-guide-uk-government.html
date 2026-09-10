@@ -35,7 +35,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/azure-migration-guide-uk-government.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-02-18"
+        "dateModified": "2026-09-10"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -71,7 +71,7 @@
 
 <article>
 <div class="article-content fade-up">
-<p>Migrating government systems to the cloud isn't just a technology decision — it's a strategic shift that affects security, compliance, procurement, and the way your entire team works. After managing cloud migrations across three UK councils, here's my practical guide to getting it right.</p>
+<p>Migrating government systems to the cloud isn't just a technology decision — it's a strategic shift that affects security, compliance, procurement, and the way your entire team works. This guide covers practical considerations for planning a council cloud migration.</p>
 
     <h2>Why Azure for Government?</h2>
     <p>Azure is the dominant cloud platform in UK government for good reason. Microsoft has UK-based data centres (UK South and UK West), holds G-Cloud framework accreditation, and meets the security standards required for OFFICIAL and OFFICIAL-SENSITIVE classified workloads. It also integrates natively with Active Directory, which most councils already use.</p>
@@ -82,7 +82,7 @@
     <p>Before migrating anything, audit your current estate. Map every application, database, and service. Document dependencies between systems. Identify which workloads are lift-and-shift candidates, which need re-architecting, and which should be replaced entirely with SaaS alternatives.</p>
     <p>I use Azure Migrate for discovery and assessment. It scans your on-premise environment, identifies dependencies, and provides sizing recommendations for Azure equivalents. This alone saves weeks of manual work. For applications that Azure Migrate can't assess automatically, I conduct manual reviews — checking framework versions, database dependencies, and integration points.</p>
     <p>The assessment should produce four categories of workloads. First, rehost candidates — applications that can move to Azure VMs or App Service with minimal changes. Second, refactor candidates — applications that need some modification, such as replacing file system dependencies with Azure Blob Storage or updating connection strings for Azure SQL. Third, rebuild candidates — applications so tightly coupled to on-premise infrastructure that they need significant rearchitecting. Fourth, replace candidates — applications where a SaaS alternative is cheaper and better than migrating the custom solution.</p>
-    <p>In my experience across council migrations, roughly 40 percent of workloads fall into the rehost category, 30 percent need refactoring, 20 percent should be replaced with SaaS, and only 10 percent genuinely need rebuilding. Councils that skip the assessment and assume everything needs rebuilding waste enormous amounts of money.</p>
+    <p>The appropriate mix of rehosting, refactoring, SaaS replacement, and rebuilding depends on the systems being assessed. Review each workload before choosing an approach, rather than assuming everything needs rebuilding.</p>
 
     <h2>Step 2: Network and Security Foundation</h2>
     <p>Set up your Azure landing zone before migrating any workloads. This means configuring virtual networks, subnets, network security groups, Azure Firewall or equivalent, and VPN or ExpressRoute connectivity back to your on-premise network. Get this right first — retrofitting networking after migration is painful and risky.</p>
@@ -107,7 +107,7 @@
     <p>I build cost monitoring into every migration from the start. Weekly cost reviews during the migration phase, monthly reviews after stabilisation, and automated alerts when spending exceeds 80 percent of budget. The goal is to have cloud costs be predictable and controlled, not a monthly surprise.</p>
 
     <h2>Common Pitfalls</h2>
-    <p>After three council migrations, these are the mistakes I see most often. Underestimating bandwidth requirements for the migration itself — moving terabytes of data over a VPN connection takes longer than you think. Forgetting to account for data egress costs when Azure services need to communicate with on-premise systems. Not training the ops team before cutover, so the first time they see the Azure portal is when something breaks at 7am on a Monday.</p>
+    <p>Migration risks include underestimating bandwidth requirements for the migration itself — moving terabytes of data over a VPN connection takes longer than you think. Forgetting to account for data egress costs when Azure services need to communicate with on-premise systems. Not training the ops team before cutover, so the first time they see the Azure portal is when something breaks at 7am on a Monday.</p>
     <p>The most expensive mistake is migrating without modernising. If you lift-and-shift a poorly architected system, you just get a poorly architected system in the cloud that costs more to run. The assessment phase should identify opportunities to improve architecture as part of the migration — consolidating databases, replacing scheduled tasks with Azure Functions, moving file shares to Blob Storage with CDN. These improvements add cost to the migration but reduce ongoing running costs significantly.</p>
 
     <h2>Timeline and Budget</h2>
@@ -127,7 +127,7 @@
     </div>
 </section>
 
-    <time datetime="2026-02" class="sr-only">Last updated February 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Experience wording updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">

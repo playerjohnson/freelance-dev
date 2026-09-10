@@ -35,7 +35,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/legacy-modernisation-without-rewrite.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-02-18"
+        "dateModified": "2026-09-10"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -77,7 +77,7 @@
     <p>The legacy system has years of bug fixes, edge case handling, and domain knowledge baked in. A rewrite throws all of this away. The original developers have moved on, and nobody fully understands why certain things work the way they do. During the rewrite, someone will inevitably say "let's also redesign the workflow while we're at it" and suddenly you're not just rebuilding the technology — you're redesigning the business process too.</p>
     <p>Meanwhile, the old system still needs maintaining, so you're paying for two systems at once. Bug fixes and feature requests don't stop just because you've started a rewrite. Your team is now split between keeping the old system running and building the new one, and neither gets enough attention.</p>
     <p>The timeline always expands. Full rewrites are typically estimated at 6 to 12 months and actually take 18 to 36 months. The complexity that made the old system messy doesn't disappear in the new one — it resurfaces in different ways as the team rediscovers edge cases, integration requirements, and business rules that weren't documented anywhere except in the old code. By the time the rewrite is ready, the requirements have drifted and the new system doesn't match what users actually need.</p>
-    <p>I've seen this pattern repeat across three councils and multiple private sector organisations. The projects that succeeded were always the ones that modernised incrementally. The ones that attempted big-bang rewrites either failed completely, were dramatically descoped, or delivered years late and over budget.</p>
+    <p>Incremental modernisation lets teams validate changes in smaller stages. Big-bang rewrites can introduce risks around scope, delivery dates, and budget.</p>
 
     <h2>The Strangler Fig Pattern</h2>
     <p>Named after tropical fig trees that gradually envelop their host, this pattern replaces legacy components one at a time. New functionality is built in the modern stack. Old functionality is migrated piece by piece. A routing layer directs traffic to either the old or new system depending on which component has been migrated. Eventually, the old system has nothing left and can be switched off.</p>
@@ -124,7 +124,7 @@
     </div>
 </section>
 
-    <time datetime="2026-02" class="sr-only">Last updated February 2026</time>
+    <time datetime="2026-09-10" class="sr-only">Experience wording updated 10 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">
