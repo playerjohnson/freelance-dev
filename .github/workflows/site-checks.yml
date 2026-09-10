@@ -26,8 +26,9 @@ jobs:
           node-version: '24'
       - name: Check JavaScript syntax
         run: |
-          node --check js/main.js
-          node --check cookie-consent.js
+          for script in js/*.js cookie-consent.js; do
+            node --check "$script"
+          done
       - name: Test contact and navigation behaviour
         run: node --test tests/*.test.cjs
       - name: Validate static pages and local links
