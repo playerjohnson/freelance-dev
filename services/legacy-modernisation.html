@@ -99,9 +99,6 @@
     <p>Every modernisation starts with a codebase assessment. I review the solution structure, dependency graph, test coverage (or lack of it), deployment process, and architectural patterns. I use the .NET Upgrade Assistant and try-convert tools to identify the mechanical changes needed, and manual review to assess the deeper structural issues.</p>
     <p>The assessment produces a prioritised roadmap: which components to modernise first, which dependencies need replacing, what the estimated effort is for each phase, and what the risk profile looks like. This gives you a clear picture of the total investment required and lets you make informed decisions about how far to go and how fast.</p>
 
-    <h2>Example Scenario</h2>
-    <p>A council was running a case management system built in ASP.NET Web Forms targeting .NET Framework 4.5. The application was 8 years old, had no automated tests, and the original development team had moved on. New feature requests were taking 4 to 6 weeks because every change risked breaking something else. I assessed the codebase, identified the core domain logic, and built a modernisation plan. Over 12 weeks, I extracted the business logic into a clean service layer with full test coverage, migrated the data access from ADO.NET to Entity Framework Core, and replaced the most-used Web Forms pages with Razor Pages. The remaining Web Forms pages continued working alongside the new code. Feature velocity tripled and the team could deploy to Azure App Service instead of managing their own IIS server.</p>
-
     <h2>Technologies</h2>
     <p>.NET 8, ASP.NET Core, Entity Framework Core, Docker, Azure App Service, Windows Compatibility Pack, .NET Upgrade Assistant, API versioning, feature flags, xUnit, and Moq for testing.</p>
 
@@ -112,8 +109,8 @@
     <h2>Related Reading</h2>
     <p>For a practical overview of the migration process, see my guide to <a href="../blog/dotnet-framework-to-dotnet-8-migration.html">.NET Framework to .NET 8 Migration</a>. My article on <a href="../blog/legacy-modernisation-without-rewrite.html">Legacy Modernisation Without a Full Rewrite</a> explains the strangler fig approach in more detail and covers how to make the business case for modernisation over rewriting.</p>
 
-    <h2>See It in Action</h2>
-    <p>Read how I applied this approach on a real project: <a href="../case-studies.html#legacy-modernisation" style="color:#f59e0b;font-weight:600;">District Council Legacy Modernisation →</a></p>
+    <h2>Discuss Relevant Work</h2>
+    <p>Ask about work relevant to your project. I can explain my role and share supporting material where I have permission. <a href="../case-studies.html#legacy-modernisation" style="color:#f59e0b;font-weight:600;">Discuss relevant work →</a></p>
 </div>
 
 <section>
