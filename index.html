@@ -14,7 +14,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anthonyjohnson.dev/freelance-dev/">
     <meta property="og:site_name" content="Anthony D Johnson">
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css?v=20260910-a11y">
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -39,15 +39,15 @@
 </head>
 <body>
 <!-- GTM noscript --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54K98MWX" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<a href="#main-content" class="skip-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:100000;padding:8px 16px;background:#f59e0b;color:#0a0e1a;font-weight:600;font-size:14px;text-decoration:none;font-family:-apple-system,system-ui,sans-serif;" onfocus="this.style.cssText='position:fixed;left:50%;top:8px;transform:translateX(-50%);width:auto;height:auto;overflow:visible;z-index:100000;padding:8px 16px;background:#f59e0b;color:#0a0e1a;font-weight:600;font-size:14px;text-decoration:none;border-radius:4px;font-family:-apple-system,system-ui,sans-serif;'" onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'">Skip to content</a>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <!-- NAV -->
 <header>
 <nav role="navigation" aria-label="Main" class="nav">
     <div class="container">
         <a href="/" class="nav-logo">anthony<span>.</span>dev</a>
-        <button class="nav-toggle" aria-label="Menu">☰</button>
-        <ul class="nav-links">
+        <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+        <ul class="nav-links" id="nav-links">
             <li><a href="#services">Services</a></li>
             <li><a href="#stack">Stack</a></li>
             <li><a href="#process">Process</a></li>
@@ -381,7 +381,7 @@
     <div class="container">
         <h2 style="text-align:center;color:#e2e8f0;font-size:1.8rem;margin-bottom:0.5rem;">Built by Me</h2>
         <p style="text-align:center;color:#94a3b8;margin-bottom:2.5rem;">Live projects showcasing my full-stack development skills</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;max-width:900px;margin:0 auto;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.25rem;max-width:900px;margin:0 auto;">
             <a href="https://anthonyjohnson.dev/uk-devtools/" target="_blank" rel="noopener" style="display:block;background:#161b22;border:1px solid #21262d;border-radius:10px;padding:1.25rem;text-decoration:none;transition:border-color 0.2s;">
                 <div style="font-size:1.5rem;margin-bottom:0.5rem;">&#163;</div>
                 <div style="color:#e2e8f0;font-weight:600;margin-bottom:0.25rem;">UK Calculator Hub</div>
@@ -457,7 +457,7 @@
     </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20260910-a11y"></script>
 <script src="cookie-consent.js"></script>
 <!-- Cross-site links -->
 <div style="background:#0a0e1a;border-top:1px solid #1e293b;padding:10px 24px;text-align:center;font-family:-apple-system,system-ui,sans-serif;">
