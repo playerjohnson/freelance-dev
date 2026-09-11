@@ -629,6 +629,8 @@ p { color: var(--text-secondary); }
 .article-content h2 { margin: 40px 0 16px; font-size: 1.5rem; }
 .article-content h3 { margin: 32px 0 12px; font-size: 1.2rem; }
 .article-content p { margin-bottom: 16px; font-size: 1rem; line-height: 1.8; }
+.article-content a { color: var(--accent); text-decoration: underline; text-underline-offset: 0.15em; }
+.article-content a:hover { color: var(--accent-light); }
 .article-content ul, .article-content ol {
     margin: 16px 0 16px 24px;
     color: var(--text-secondary);
