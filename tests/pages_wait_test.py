@@ -89,6 +89,43 @@ class PagesWaitTests(unittest.TestCase):
             pages.wait_for_pages("wanted", {})
         self.assertEqual([call.args[0] for call in delay.call_args_list], [60, 120])
 
+    def test_secondary_limit_message_recovers_without_timing_headers(self):
+        for headers in ({}, {"X-RateLimit-Remaining": "123"}):
+            with self.subTest(headers=headers):
+                body = io.BytesIO(json.dumps({"message": "You have exceeded a secondary rate limit. Please wait before you try again."}).encode())
+                error = HTTPError("https://api.github.com/", 403, "Forbidden", headers, body)
+                with patch.object(pages, "urlopen", side_effect=[error, self.successful_response()]) as request, patch.object(pages.time, "sleep") as delay:
+                    pages.wait_for_pages("wanted", {})
+                self.assertEqual(request.call_count, 2)
+                delay.assert_called_once_with(60)
+
+    def test_unrecognised_403_bodies_still_fail_without_retrying(self):
+        bodies = [
+            b'{"message":"Resource not accessible by integration"}',
+            b'{"message":"Forbidden","documentation_url":"https://docs.github.com/secondary rate limit"}',
+            b'{"message":null}', b'{"message":["secondary rate limit"]}',
+            b'["secondary rate limit"]', b'null', b'not JSON', b'\xff',
+            b'{"message":"secondary rate limit",',
+            json.dumps({"message": "secondary rate limit", "padding": "x" * 8192}).encode(),
+        ]
+        for body in bodies:
+            with self.subTest(body_length=len(body)):
+                error = HTTPError("https://api.github.com/", 403, "Forbidden", {}, io.BytesIO(body))
+                with patch.object(pages, "urlopen", side_effect=error) as request, patch.object(pages.time, "sleep") as delay:
+                    with self.assertRaises(HTTPError):
+                        pages.wait_for_pages("wanted", {})
+                self.assertEqual(request.call_count, 1)
+                delay.assert_not_called()
+
+    def test_secondary_limit_body_read_is_bounded_and_read_failure_does_not_retry(self):
+        error = HTTPError("https://api.github.com/", 403, "Forbidden", {}, io.BytesIO())
+        with patch.object(error, "read", side_effect=TimeoutError) as read, patch.object(pages, "urlopen", side_effect=error) as request, patch.object(pages.time, "sleep") as delay:
+            with self.assertRaises(HTTPError):
+                pages.wait_for_pages("wanted", {})
+        read.assert_called_once_with(8193)
+        self.assertEqual(request.call_count, 1)
+        delay.assert_not_called()
+
     def test_reset_beyond_deadline_does_not_send_an_early_retry(self):
         error = HTTPError("https://api.github.com/", 403, "rate limited", {"x-ratelimit-remaining": "0", "x-ratelimit-reset": "2000"}, None)
         with patch.object(pages, "urlopen", side_effect=error) as request, patch.object(pages.time, "time", return_value=1000), patch.object(pages.time, "sleep") as delay:
