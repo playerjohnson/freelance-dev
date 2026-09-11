@@ -16,10 +16,24 @@ def pages_run(runs, sha):
                  and run.get("head_sha") == sha and run.get("head_branch") == "main"), None)
 
 
+def secondary_limit_message(error):
+    """Recognise GitHub's JSON error message without logging or trusting arbitrary bodies."""
+    try:
+        body = error.read(8193)
+        if len(body) > 8192:
+            return False
+        payload = json.loads(body)
+    except (OSError, ValueError, UnicodeError):
+        return False
+    message = payload.get("message") if isinstance(payload, dict) else None
+    return isinstance(message, str) and "secondary rate limit" in message.lower()
+
+
 def retry_delay(error, rate_backoff):
     headers = {name.lower(): value for name, value in (error.headers or {}).items()}
     rate_limited = error.code == 429 or (error.code == 403 and
-                   (headers.get("x-ratelimit-remaining") == "0" or "retry-after" in headers))
+                   (headers.get("x-ratelimit-remaining") == "0" or "retry-after" in headers
+                    or secondary_limit_message(error)))
     if not rate_limited and error.code not in (408, 500, 502, 503, 504):
         return None
     delay = rate_backoff if rate_limited else 10
