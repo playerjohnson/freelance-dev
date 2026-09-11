@@ -38,7 +38,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/azure-devops-pipelines-from-scratch.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-11"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -94,7 +94,7 @@
     <p>Treat database deployment as a separately reviewed release step. Inspect generated SQL or migration bundles, test against a representative non-production database and verify a recovery plan. Keep schema changes compatible with both application versions during a slot swap; swapping application slots does not roll back the database. See <a href="https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/applying">Microsoft's production migration guidance</a>.</p>
 
     <h2>Infrastructure as Code</h2>
-    <p>Don't create Azure resources manually through the portal. Use Terraform or Bicep in your pipeline to create and update infrastructure. This means your staging and production environments are guaranteed identical (eliminating the "works in staging, breaks in production" problem), new environments can be spun up in minutes for testing or disaster recovery, infrastructure changes go through the same code review process as application changes, and your entire environment is documented in code rather than in someone's memory.</p>
+    <p>Use Terraform or Bicep to define and review infrastructure changes alongside application code. Keep intended differences between environments explicit, including configuration, secrets, data and capacity. Validate each environment and rehearse recovery; infrastructure-as-code does not by itself guarantee identical behaviour or a recovery time.</p>
     <p>I typically use Terraform for multi-cloud or complex infrastructure and Bicep for Azure-only deployments. Bicep has the advantage of native Azure integration and doesn't require state management, but Terraform's provider ecosystem and mature state management make it the better choice for anything beyond simple Azure resources.</p>
     <p>Store your infrastructure code in the same repository as your application code. Run <code>terraform plan</code> or the Bicep what-if command on pull requests so the team can review infrastructure changes before they're applied, just like they review code changes.</p>
 

@@ -38,7 +38,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/azure-migration-guide-uk-government.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-11"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -83,7 +83,7 @@
 
     <h2>Step 1: Cloud Readiness Assessment</h2>
     <p>Before migrating anything, audit your current estate. Map every application, database, and service. Document dependencies between systems. Identify which workloads are lift-and-shift candidates, which need re-architecting, and which should be replaced entirely with SaaS alternatives.</p>
-    <p>I use Azure Migrate for discovery and assessment. It scans your on-premise environment, identifies dependencies, and provides sizing recommendations for Azure equivalents. This alone saves weeks of manual work. For applications that Azure Migrate can't assess automatically, I conduct manual reviews — checking framework versions, database dependencies, and integration points.</p>
+    <p>I use Azure Migrate for discovery and assessment. It scans your on-premise environment, identifies dependencies, and provides sizing recommendations for Azure equivalents. Review the discovery output and validate important dependencies with the team. For applications that Azure Migrate can't assess automatically, I conduct manual reviews — checking framework versions, database dependencies, and integration points.</p>
     <p>The assessment should produce four categories of workloads. First, rehost candidates — applications that can move to Azure VMs or App Service with minimal changes. Second, refactor candidates — applications that need some modification, such as replacing file system dependencies with Azure Blob Storage or updating connection strings for Azure SQL. Third, rebuild candidates — applications so tightly coupled to on-premise infrastructure that they need significant rearchitecting. Fourth, replace candidates — applications where a SaaS alternative is cheaper and better than migrating the custom solution.</p>
     <p>The appropriate mix of rehosting, refactoring, SaaS replacement, and rebuilding depends on the systems being assessed. Review each workload before choosing an approach, rather than assuming everything needs rebuilding.</p>
 
