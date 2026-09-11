@@ -2,6 +2,8 @@
 
 Recorded 10 September 2026. This runbook describes the repository workflow; it does not replace Project Instructions or grant account, merge or settings approval.
 
+Release-check reliability notes updated 11 September 2026.
+
 ## Scope and hosting
 
 - Repository: `playerjohnson/freelance-dev`.
@@ -35,6 +37,8 @@ Static validation covers local URLs and fragments, IDs, page canonicals, Open Gr
 2. Check `Verify public release`. A successful main `Site checks` run triggers it; it then waits for GitHub's Pages run at the same commit using read-only repository Actions access. The public-file check performs GET requests only within the freelance subpath, compares 27 public files with the checkout, checks the slashless redirect and expects 404 for a missing page. It refuses redirects outside this site. It never runs tracking scripts, contacts Formspree or submits a form.
 3. A superseded release is explicitly skipped, not verified. Find the newer main run. If bytes differ, investigate a failed or stale deployment before retrying; do not rebuild repeatedly without a reason.
 4. Inspect the live homepage, contact page and an affected nested page in a browser. Check navigation, keyboard focus, local assets and error/status presentation. Do not equate a successful HTTP check with a complete browser journey.
+
+The workflow rechecks main immediately before public-file verification, after the Pages wait, and again before reporting its result. If main advances during the comparison, the older run records a superseded skip instead of a success or stale-byte failure. Failure to fetch main remains an error. Pages polling retries transient network failures and HTTP 408, 429, 500, 502, 503 and 504 within a 180-second deadline and at most 18 observations; authentication/permission errors and failed Pages deployments still fail promptly.
 
 The same read-only check can be run manually from the intended release checkout:
 

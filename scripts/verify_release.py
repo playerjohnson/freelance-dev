@@ -60,8 +60,21 @@ def compare(path):
     raise RuntimeError(f"{relative}: {last}")
 
 
-def main():
-    sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+def is_current_release(sha):
+    subprocess.run(["git", "fetch", "--quiet", "--no-tags", "origin", "main"], cwd=ROOT, check=True, timeout=15)
+    current = subprocess.check_output(["git", "rev-parse", "FETCH_HEAD"], cwd=ROOT, text=True).strip()
+    return sha == current
+
+
+def report_superseded(sha):
+    message = f"Superseded release `{sha}`: public verification skipped."
+    print(message)
+    if os.environ.get("GITHUB_STEP_SUMMARY"):
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as output:
+            output.write(message + "\n")
+
+
+def verify_files(sha):
     paths = sorted(p for p in ROOT.rglob("*.html") if not any(part.startswith(".") for part in p.relative_to(ROOT).parts))
     paths += [ROOT / name for name in ("css/style.css", "js/main.js", "cookie-consent.js", "sitemap.xml", "robots.txt", "favicon.svg", "og-image.png")]
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
@@ -72,12 +85,30 @@ def main():
     status, _, _, _, _ = retrieve(BASE + "release-check-missing-" + sha + ".html")
     if status != 404:
         raise RuntimeError(f"Missing page returned HTTP {status}, expected 404")
-    report = {"commit": sha, "base": BASE, "verified_files": len(results), "redirect": "pass", "missing_page": "404", "files": results}
+    return {"commit": sha, "base": BASE, "verified_files": len(results), "redirect": "pass", "missing_page": "404", "files": results}
+
+
+def main():
+    sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    check_current = os.environ.get("CHECK_CURRENT_MAIN") == "true"
+    if check_current and not is_current_release(sha):
+        report_superseded(sha)
+        return
+    try:
+        report = verify_files(sha)
+    except (RuntimeError, OSError, ValueError):
+        if check_current and not is_current_release(sha):
+            report_superseded(sha)
+            return
+        raise
+    if check_current and not is_current_release(sha):
+        report_superseded(sha)
+        return
     print(json.dumps(report, indent=2))
     if os.environ.get("GITHUB_STEP_SUMMARY"):
-        home = next(item for item in results if item["path"] == "index.html")
+        home = next(item for item in report["files"] if item["path"] == "index.html")
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as output:
-            output.write(f"Verified {len(results)} public files against `{sha}` at {BASE}. Redirect and missing-page status passed.\n\n")
+            output.write(f"Verified {report['verified_files']} public files against `{sha}` at {BASE}. Redirect and missing-page status passed.\n\n")
             output.write("Homepage response headers (absence is reported, not treated as a failed deployment):\n\n")
             for key, value in home["headers"].items():
                 output.write(f"- {key}: {value or 'not present'}\n")

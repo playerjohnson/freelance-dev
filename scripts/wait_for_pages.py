@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 import time
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 REPOSITORY = "playerjohnson/freelance-dev"
@@ -15,6 +16,35 @@ def pages_run(runs, sha):
                  and run.get("head_sha") == sha and run.get("head_branch") == "main"), None)
 
 
+def wait_for_pages(sha, headers):
+    url = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?head_sha={sha}&per_page=100"
+    deadline = time.monotonic() + 180
+    for attempt in range(18):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            break
+        try:
+            with urlopen(Request(url, headers=headers), timeout=min(10, remaining)) as response:
+                runs = json.load(response)["workflow_runs"]
+        except HTTPError as error:
+            if error.code not in (408, 429, 500, 502, 503, 504):
+                raise
+            print(f"Transient Actions API response: HTTP {error.code}; observation {attempt + 1}/18.")
+        except OSError:
+            print(f"Transient Actions API network failure; observation {attempt + 1}/18.")
+        else:
+            run = pages_run(runs, sha)
+            if run and run["status"] == "completed":
+                if run["conclusion"] != "success":
+                    raise RuntimeError(f"Pages run {run['id']} finished: {run['conclusion']}")
+                print(f"Pages run {run['id']} succeeded for {sha}.")
+                return
+        remaining = deadline - time.monotonic()
+        if attempt < 17 and remaining > 0:
+            time.sleep(min(10, remaining))
+    raise RuntimeError("No successful Pages deployment for this commit within the waiting period")
+
+
 def main():
     root = Path(__file__).resolve().parents[1]
     sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
@@ -22,19 +52,7 @@ def main():
     token = os.environ.get("GH_TOKEN")
     if token:
         headers["Authorization"] = "Bearer " + token
-    url = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?head_sha={sha}&per_page=100"
-    for attempt in range(18):
-        with urlopen(Request(url, headers=headers), timeout=10) as response:
-            runs = json.load(response)["workflow_runs"]
-        run = pages_run(runs, sha)
-        if run and run["status"] == "completed":
-            if run["conclusion"] != "success":
-                raise RuntimeError(f"Pages run {run['id']} finished: {run['conclusion']}")
-            print(f"Pages run {run['id']} succeeded for {sha}.")
-            return
-        if attempt < 17:
-            time.sleep(10)
-    raise RuntimeError("No successful Pages deployment for this commit within the waiting period")
+    wait_for_pages(sha, headers)
 
 
 if __name__ == "__main__":
