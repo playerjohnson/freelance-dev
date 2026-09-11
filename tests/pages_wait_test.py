@@ -73,3 +73,34 @@ class PagesWaitTests(unittest.TestCase):
                 pages.wait_for_pages("wanted", {})
         self.assertEqual(request.call_count, 1)
         delay.assert_not_called()
+
+    def test_rate_limit_403_recovers_after_the_advertised_delay(self):
+        headers = {"X-RateLimit-Remaining": "0", "X-RateLimit-Reset": "1090", "Retry-After": "70"}
+        error = HTTPError("https://api.github.com/", 403, "rate limited", headers, None)
+        with patch.object(pages, "urlopen", side_effect=[error, self.successful_response()]) as request, patch.object(pages.time, "time", return_value=1000), patch.object(pages.time, "sleep") as delay:
+            pages.wait_for_pages("wanted", {})
+        self.assertEqual(request.call_count, 2)
+        delay.assert_called_once_with(91)
+
+    def test_secondary_rate_limit_backoff_increases(self):
+        errors = [HTTPError("https://api.github.com/", 403, "rate limited", {"Retry-After": "1"}, None),
+                  HTTPError("https://api.github.com/", 429, "rate limited", {}, None)]
+        with patch.object(pages, "urlopen", side_effect=errors + [self.successful_response()]), patch.object(pages.time, "monotonic", return_value=0), patch.object(pages.time, "sleep") as delay:
+            pages.wait_for_pages("wanted", {})
+        self.assertEqual([call.args[0] for call in delay.call_args_list], [60, 120])
+
+    def test_reset_beyond_deadline_does_not_send_an_early_retry(self):
+        error = HTTPError("https://api.github.com/", 403, "rate limited", {"x-ratelimit-remaining": "0", "x-ratelimit-reset": "2000"}, None)
+        with patch.object(pages, "urlopen", side_effect=error) as request, patch.object(pages.time, "time", return_value=1000), patch.object(pages.time, "sleep") as delay:
+            with self.assertRaises(RuntimeError):
+                pages.wait_for_pages("wanted", {})
+        self.assertEqual(request.call_count, 1)
+        delay.assert_not_called()
+
+    def test_unreadable_retry_timing_fails_without_retrying(self):
+        error = HTTPError("https://api.github.com/", 429, "rate limited", {"retry-after": "unknown"}, None)
+        with patch.object(pages, "urlopen", side_effect=error) as request, patch.object(pages.time, "sleep") as delay:
+            with self.assertRaisesRegex(RuntimeError, "refusing an early retry"):
+                pages.wait_for_pages("wanted", {})
+        self.assertEqual(request.call_count, 1)
+        delay.assert_not_called()

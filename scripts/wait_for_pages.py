@@ -16,19 +16,41 @@ def pages_run(runs, sha):
                  and run.get("head_sha") == sha and run.get("head_branch") == "main"), None)
 
 
+def retry_delay(error, rate_backoff):
+    headers = {name.lower(): value for name, value in (error.headers or {}).items()}
+    rate_limited = error.code == 429 or (error.code == 403 and
+                   (headers.get("x-ratelimit-remaining") == "0" or "retry-after" in headers))
+    if not rate_limited and error.code not in (408, 500, 502, 503, 504):
+        return None
+    delay = rate_backoff if rate_limited else 10
+    try:
+        if "retry-after" in headers:
+            delay = max(delay, int(headers["retry-after"]))
+        if headers.get("x-ratelimit-remaining") == "0" and "x-ratelimit-reset" in headers:
+            delay = max(delay, int(headers["x-ratelimit-reset"]) - time.time() + 1)
+    except (TypeError, ValueError):
+        raise RuntimeError("Cannot interpret the Actions API retry timing; refusing an early retry") from None
+    return delay
+
+
 def wait_for_pages(sha, headers):
     url = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?head_sha={sha}&per_page=100"
     deadline = time.monotonic() + 180
+    rate_backoff = 60
     for attempt in range(18):
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             break
+        delay = 10
         try:
             with urlopen(Request(url, headers=headers), timeout=min(10, remaining)) as response:
                 runs = json.load(response)["workflow_runs"]
         except HTTPError as error:
-            if error.code not in (408, 429, 500, 502, 503, 504):
+            delay = retry_delay(error, rate_backoff)
+            if delay is None:
                 raise
+            if error.code in (403, 429):
+                rate_backoff *= 2
             print(f"Transient Actions API response: HTTP {error.code}; observation {attempt + 1}/18.")
         except OSError:
             print(f"Transient Actions API network failure; observation {attempt + 1}/18.")
@@ -40,8 +62,10 @@ def wait_for_pages(sha, headers):
                 print(f"Pages run {run['id']} succeeded for {sha}.")
                 return
         remaining = deadline - time.monotonic()
+        if delay >= remaining:
+            break
         if attempt < 17 and remaining > 0:
-            time.sleep(min(10, remaining))
+            time.sleep(delay)
     raise RuntimeError("No successful Pages deployment for this commit within the waiting period")
 
 
