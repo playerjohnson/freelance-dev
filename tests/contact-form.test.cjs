@@ -6,6 +6,7 @@ const vm = require('node:vm');
 
 // Dependency-free request fixtures. No network calls are made.
 const script = readFileSync(join(__dirname, '../js/main.js'), 'utf8');
+const consentScript = readFileSync(join(__dirname, '../js/freelance-consent.js'), 'utf8');
 
 function fixture({ fetchImpl, valid = true, enhanced = true } = {}) {
     let submit;
@@ -33,6 +34,7 @@ function fixture({ fetchImpl, valid = true, enhanced = true } = {}) {
         return fetchImpl ? fetchImpl(options) : { ok: true, status: 200 };
     };
     const context = {
+        location: { pathname: '/freelance-dev/contact.html' },
         window: { addEventListener() {}, fetch: enhanced ? fetch : undefined, AbortController },
         document: {
             querySelector(selector) {
@@ -52,6 +54,7 @@ function fixture({ fetchImpl, valid = true, enhanced = true } = {}) {
         clearTimeout(id) { timers.delete(id); }
     };
     vm.runInNewContext(script, context);
+    vm.runInNewContext(consentScript, context);
     return {
         form, status, button, fields, calls, timers, initialValues,
         hasHandler: () => Boolean(submit),
