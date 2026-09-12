@@ -4,7 +4,7 @@ const { join } = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-const script = readFileSync(join(__dirname, '../js/main.js'), 'utf8');
+const script = readFileSync(join(__dirname, '../js/navigation.js'), 'utf8');
 
 function element() {
     const classes = new Set();

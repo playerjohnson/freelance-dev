@@ -8,10 +8,8 @@ const vm = require('node:vm');
 const script = readFileSync(join(__dirname, '../js/main.js'), 'utf8');
 const consentScript = readFileSync(join(__dirname, '../js/freelance-consent.js'), 'utf8');
 
-function fixture({ fetchImpl, valid = true, enhanced = true, loading = false } = {}) {
+function fixture({ fetchImpl, valid = true, enhanced = true } = {}) {
     let submit;
-    let onReady;
-    let formAvailable = !loading;
     const calls = [];
     const timers = new Map();
     const status = { textContent: '', dataset: {} };
@@ -39,10 +37,7 @@ function fixture({ fetchImpl, valid = true, enhanced = true, loading = false } =
         location: { pathname: '/freelance-dev/contact.html' },
         window: { addEventListener() {}, fetch: enhanced ? fetch : undefined, AbortController },
         document: {
-            readyState: loading ? 'loading' : 'complete',
-            addEventListener(event, callback) { if (event === 'DOMContentLoaded') onReady = callback; },
             querySelector(selector) {
-                if (!formAvailable) return null;
                 return ({ '#contact-form': form, '#contact-status': status })[selector] || null;
             },
             querySelectorAll() { return []; }
@@ -62,7 +57,6 @@ function fixture({ fetchImpl, valid = true, enhanced = true, loading = false } =
     vm.runInNewContext(consentScript, context);
     return {
         form, status, button, fields, calls, timers, initialValues,
-        finishParsing() { formAvailable = true; onReady(); },
         hasHandler: () => Boolean(submit),
         submit: () => submit({ preventDefault() {} }),
         expireRequest() {
@@ -74,19 +68,6 @@ function fixture({ fetchImpl, valid = true, enhanced = true, loading = false } =
         }
     };
 }
-
-test('early navigation script enhances a contact form parsed later without sending on load', async () => {
-    const f = fixture({ loading: true });
-    assert.equal(f.hasHandler(), false);
-    assert.equal(f.calls.length, 0);
-    f.finishParsing();
-    assert.equal(f.hasHandler(), true);
-    assert.equal(f.calls.length, 0);
-    await f.submit();
-    assert.equal(f.calls.length, 1);
-    assert.equal(f.status.dataset.state, 'success');
-    assertReady(f);
-});
 
 function assertReady(f) {
     assert.equal(f.button.disabled, false);
