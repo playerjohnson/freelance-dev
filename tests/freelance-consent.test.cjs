@@ -62,7 +62,7 @@ function htmlFiles(directory) {
 
 test('published pages load only reviewed local scripts and cannot restore a tag-manager iframe or legacy loader', () => {
     const allowed = new Map([
-        [path.join(root, 'js/main.js'), 'v=20260910-a11y'],
+        [path.join(root, 'js/main.js'), 'v=20260912-nav-timing'],
         [path.join(root, 'js/freelance-consent.js'), 'v=20260912-paused']
     ]);
     const files = htmlFiles(root);
