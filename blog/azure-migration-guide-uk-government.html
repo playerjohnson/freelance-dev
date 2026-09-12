@@ -38,7 +38,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/azure-migration-guide-uk-government.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-09-11"
+        "dateModified": "2026-09-12"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -88,9 +88,9 @@
 
     <h2>Step 2: Network and Security Foundation</h2>
     <p>Set up your Azure landing zone before migrating any workloads. This means configuring virtual networks, subnets, network security groups, Azure Firewall or equivalent, and VPN or ExpressRoute connectivity back to your on-premise network. Get this right first — retrofitting networking after migration is painful and risky.</p>
-    <p>For government workloads, enable Azure Policy to enforce compliance guardrails automatically. The policies I configure for every council migration include blocking resource creation outside UK South and UK West regions, enforcing encryption at rest on all storage accounts and databases, requiring diagnostic logging on all resources, preventing public IP addresses on VMs unless explicitly approved, and enforcing tagging standards so cost allocation is clear from day one.</p>
+    <p>Define the required regions, encryption, logging, access and tagging controls with the organisation. Use applicable Azure Policy controls and review exceptions; policy configuration does not by itself establish compliance.</p>
     <p>Choose private endpoints, network restrictions and other controls from the workload's risk assessment and the organisation's security requirements. Classification alone does not define a complete architecture; check the selected services, configuration and assurance evidence.</p>
-    <p>Network connectivity between on-premise and Azure is typically the first decision point. VPN is cheaper and faster to set up but has bandwidth limitations and higher latency. ExpressRoute provides a dedicated private connection with guaranteed bandwidth but costs significantly more and takes weeks to provision. For most council migrations, I start with VPN and move to ExpressRoute only if performance requirements demand it.</p>
+    <p>Compare VPN and ExpressRoute against the workload’s bandwidth, resilience, latency and cost requirements. Confirm provider lead times and test the connection before planning a cutover.</p>
 
     <h2>Step 3: Identity and Access</h2>
     <p>Plan hybrid identity using Microsoft Entra ID and an appropriate synchronisation approach for your estate. Test a limited scope first, define emergency access, and agree multifactor authentication and privileged-access controls before rollout.</p>
@@ -101,11 +101,11 @@
     <p>Never do a big-bang migration. Start with low-risk, low-dependency workloads — development environments, internal tools, file shares. Build confidence and operational knowledge before touching production systems.</p>
     <p>For each workload, follow this pattern: migrate to staging, test thoroughly, run parallel with on-premise, cutover, monitor, decommission old system. Document every step in a runbook that your ops team can follow independently.</p>
     <p>The parallel running phase is where most teams cut corners, and it's where most problems surface. Run both systems side by side for at least two weeks for critical applications. Compare outputs, monitor performance, and verify that integrations work correctly. The cost of running parallel is a fraction of the cost of a failed migration that takes down a production system.</p>
-    <p>I typically plan council migrations in waves of 3 to 5 applications, with two weeks between waves. This gives the ops team time to stabilise each wave before the next one arrives. Trying to migrate everything simultaneously overwhelms the team and multiplies risk.</p>
+    <p>Group applications into migration waves based on dependencies and risk. Allow time between waves to validate behaviour and resolve operational issues; the size and spacing of waves depend on the estate.</p>
 
     <h2>Step 5: Cost Management</h2>
     <p>Build a workload-specific cost model using current service prices and measured utilisation. Consider reservations only where the commitment suits the workload, and schedule non-production shutdowns only where operational needs allow. Validate savings instead of assuming a fixed percentage.</p>
-    <p>The most common cost mistakes I see in council migrations are choosing oversized VM SKUs because the equivalent spec doesn't exist (a 32GB RAM server doesn't need a 32GB Azure VM if it was only using 8GB), leaving orphaned resources running after decommissioning old configurations, not using reserved instances for workloads that run 24/7, and running premium-tier services where standard tier would suffice.</p>
+    <p>Review oversized resources, orphaned services, licensing, transfer charges and service tiers. Compare measured usage with the required capacity before changing the configuration.</p>
     <p>I build cost monitoring into every migration from the start. Weekly cost reviews during the migration phase, monthly reviews after stabilisation, and automated alerts when spending exceeds 80 percent of budget. The goal is to have cloud costs be predictable and controlled, not a monthly surprise.</p>
 
     <h2>Common Pitfalls</h2>
@@ -113,8 +113,8 @@
     <p>The most expensive mistake is migrating without modernising. If you lift-and-shift a poorly architected system, you just get a poorly architected system in the cloud that costs more to run. The assessment phase should identify opportunities to improve architecture as part of the migration — consolidating databases, replacing scheduled tasks with Azure Functions, moving file shares to Blob Storage with CDN. These improvements add cost to the migration but reduce ongoing running costs significantly.</p>
 
     <h2>Timeline and Budget</h2>
-    <p>For a typical council with 10 to 20 applications, the full migration process takes 3 to 6 months. Assessment takes 2 to 4 weeks. Foundation setup takes 2 to 3 weeks. Migration waves run over 2 to 4 months depending on complexity. Optimisation is ongoing but the major work happens in the month after the final wave.</p>
-    <p>Budget varies enormously depending on scope, but a realistic range for a council migration of this size is £15,000 to £50,000 for the migration itself (external consultancy costs), plus ongoing Azure consumption costs which typically range from £2,000 to £10,000 per month depending on the workloads involved. In most cases, the Azure consumption costs are lower than the on-premise hosting costs they replace, making the migration self-funding within 12 to 18 months.</p>
+    <p>Illustrative planning example, not a quote or a measured project outcome: an estate of 10 to 20 applications might be modelled over 3 to 6 months, including 2 to 4 weeks for assessment, 2 to 3 weeks for foundations, and 2 to 4 months for migration waves. Dependencies, assurance and recovery requirements can change the schedule.</p>
+    <p>For the same illustrative example, a preliminary model might use £15,000 to £50,000 in migration consultancy and £2,000 to £10,000 per month in Azure consumption. These figures are assumptions to replace with a scoped quote and current workload costs. Compare the full costs of both environments; a migration is not guaranteed to pay for itself.</p>
 
     <h2>Need Help?</h2>
     <p>I offer <a href="../services/azure-cloud-migration.html">cloud readiness assessments and full migration services</a> for UK government teams. If you're planning a migration and want to avoid the common pitfalls, <a href="../contact.html">get in touch</a> for a free 30-minute discovery call. I'll give you an honest assessment of your readiness and a realistic timeline for your specific situation.</p>
@@ -129,7 +129,7 @@
     </div>
 </section>
 
-    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
+    <time datetime="2026-09-12" class="sr-only">Last updated 12 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">
