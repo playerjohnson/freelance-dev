@@ -63,6 +63,14 @@ The form uses Formspree. Endpoint reachability and a success message do not prov
 
 Use isolated fixtures for pending, success, HTTP failure, rate-limit, network and timeout behaviour. A live delivery test needs explicit approval, a clearly marked test message and verification at both provider and intended mailbox. Do not submit repeated tests or infer non-receipt after a timeout. Keep the direct-email alternative visible.
 
+## Optional tracking pause — 12 September 2026
+
+Optional analytics and advertising are paused on the freelance subpath. The dedicated script is inert apart from a no-op event helper; it does not load providers, access stored choices or cookies, or render opt-in controls. All existing script references use the paused version. The legacy shared script and provider settings remain unchanged.
+
+Re-enabling tracking needs a separately reviewed and authorised change. Verify the actual container's purposes and consent behaviour, the provider/account evidence and privacy wording before restoring any loader. Test fresh visits, saved choices, rejection, withdrawal, cross-tab storage clearing and nested pages in an approved isolated environment. Loader-selection tests alone do not establish what a container executes. Do not restore old saved consent automatically.
+
+The pause takes effect when a visitor loads or reloads a page with the new release; deployment cannot stop scripts already running in an open tab. It does not erase existing provider data or shared-origin cookies. The contact form remains independent of optional tracking.
+
 ## Monitoring proposal and outstanding gates
 
 Active checks: PR/main validation, GitHub Pages build/deploy, and post-Pages public-file verification. These are release-triggered checks; no timed schedule is created here.
