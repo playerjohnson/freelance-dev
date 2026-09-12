@@ -62,18 +62,28 @@ function htmlFiles(directory) {
 
 test('published pages load only reviewed local scripts and cannot restore a tag-manager iframe or legacy loader', () => {
     const allowed = new Map([
-        [path.join(root, 'js/main.js'), 'v=20260910-a11y'],
+        [path.join(root, 'js/main.js'), 'v=20260912-nav-split'],
         [path.join(root, 'js/freelance-consent.js'), 'v=20260912-paused']
     ]);
     const files = htmlFiles(root);
+    const navigation = fs.readFileSync(path.join(root, 'js/navigation.js'), 'utf8').trim();
     assert.ok(files.includes(path.join(root, 'index.html')));
     assert.ok(files.includes(path.join(root, 'contact.html')));
     for (const filename of files) {
         const html = fs.readFileSync(filename, 'utf8');
         assert.doesNotMatch(html, /<iframe\b/i, filename);
+        if (html.includes('js/main.js?')) {
+            const bootstrap = html.indexOf('<script data-navigation-bootstrap>');
+            assert.ok(bootstrap > html.indexOf('</header>') && bootstrap < html.indexOf('<main'), filename + ': navigation must initialise before main content');
+            assert.ok(html.indexOf('js/main.js?') > html.indexOf('</main>'), filename + ': the form bundle must not block main content');
+        }
         for (const [, attributes, body] of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
             const src = attributes.match(/\bsrc\s*=\s*["']([^"']+)["']/i)?.[1];
             if (!src) {
+                if (/\bdata-navigation-bootstrap\b/.test(attributes)) {
+                    assert.equal(body.trim(), navigation, filename + ': unreviewed inline navigation');
+                    continue;
+                }
                 assert.match(attributes, /\btype\s*=\s*["']application\/ld\+json["']/i, filename);
                 assert.doesNotThrow(() => JSON.parse(body), filename);
                 continue;

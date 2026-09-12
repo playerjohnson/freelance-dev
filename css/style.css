@@ -541,7 +541,7 @@ p { color: var(--text-secondary); }
     margin-top: 12px;
     max-width: 280px;
 }
-.footer h4 {
+.footer h2 {
     font-size: 0.82rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -695,7 +695,7 @@ p { color: var(--text-secondary); }
     border-radius: var(--radius);
     padding: 24px;
 }
-.contact-info-card h4 {
+.contact-info-card h2 {
     font-size: 0.95rem;
     margin-bottom: 6px;
     color: var(--text-primary);
