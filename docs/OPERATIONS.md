@@ -23,6 +23,7 @@ For local validation, use Node 24 and Python 3.10 or newer:
 
 ```sh
 node --check js/main.js
+node --check js/freelance-consent.js
 node --check cookie-consent.js
 node --test tests/*.test.cjs
 python3 scripts/check_site.py
@@ -82,4 +83,24 @@ Proposed, awaiting schedule/account approval:
 - Formspree quota, spam and delivery monitoring after account ownership and available provider events are verified.
 - Search Console coverage and indexing review after identifying the correct property and account.
 
-Still required: mobile viewport and 200% zoom checks, screen-reader testing, real-browser performance measurements, shared-origin consent/provider review, claim substantiation and commercial decisions. Record only the checks actually performed; do not turn these outstanding gates into passing results.
+## Core-site completion and handover
+
+The agreed core goal is a reliable freelance information and enquiry site with optional analytics and advertising paused. Restoring measurement, changing provider accounts and introducing scheduled monitoring are separate work requiring their own approval.
+
+Close the core work with a dated handover identifying the exact serving commit, PRs, checks and any owner-accepted exceptions. Do not describe an untested gate as passed, or treat the site's published wording as proof of the underlying practice.
+
+| Gate | Evidence needed for closure |
+| --- | --- |
+| Enquiries | Isolated validation and failure fixtures, usable direct-email alternative, and the existing authorised delivery evidence. Do not repeat the completed live test without a new reason and approval. |
+| Content | Approved positioning, labelled employment/project context, supported claims, current availability and internally consistent commercial terms. Preserve original article publication dates; update modification dates for actual edits. |
+| Privacy | Text matches the deployed code and the owner's actual enquiry retention, mailbox and provider arrangements. A provider's public policy is not proof of this account's contract or settings. |
+| Usability | Check homepage, contact, one nested service/article and 404 with keyboard navigation. At 320, 375 and 768 CSS pixels, check menu opening/closing, readable content, forms and horizontal overflow. Check 200% zoom and a screen reader's field labels and status announcements using an isolated form fixture. Record the device/browser and result. |
+| Performance | Record an actual browser measurement and its conditions. HTTP transfer time and a small asset size alone do not establish Core Web Vitals. |
+| Search | Verify canonicals, sitemap, robots, redirects and 404 behaviour. Record Search Console visibility separately; a sitemap or verification file does not prove indexing. |
+| Release | Successful checks for the actual head, successful Pages deployment, public-file comparison and an affected-page browser inspection. Keep the rollback steps above available. |
+
+No new schedule or notification is activated by this runbook. AJ remains the contact for enquiries and commercial decisions; ongoing monitoring responsibilities and frequency require explicit agreement. When reviewing an enquiry, check the intended mailbox and the form's inbox/spam/quota in the correct account. For a failed release, use the existing workflow evidence and rollback process before retrying deployment.
+
+The completion review on 12 September 2026 found the root-origin robots file allows crawling but advertises the root sitemap. The freelance sitemap remains available at `/freelance-dev/sitemap.xml`; the subpath's `robots.txt` does not control origin-wide crawler policy. Do not modify the root sitemap or robots file as part of freelance-only work.
+
+Remaining manual gates must be recorded in the private handover: real mobile/zoom and screen-reader checks, performance measurements, owner confirmation of public claims and privacy practices, and any accepted account/security limitations. The optional tracking pause does not require enabling or modifying shared providers to close the core release.

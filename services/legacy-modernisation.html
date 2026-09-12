@@ -37,7 +37,7 @@
     "name": "United Kingdom"
   },
   "url": "https://anthonyjohnson.dev/freelance-dev/services/legacy-modernisation.html",
-  "dateModified": "2026-09-10"
+  "dateModified": "2026-09-12"
 }</script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
 </head>
@@ -78,24 +78,24 @@
     <p><strong>Migration planning update — 10 September 2026:</strong> The .NET 8 examples below describe a migration approach. Microsoft's <a href="https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core">support policy</a> lists .NET 8 support ending on 10 November 2026. New engagements should assess a supported target such as .NET 10 LTS, including dependency and hosting compatibility, before agreeing the scope.</p>
     <h2>The Problem</h2>
     <p>You have a .NET Framework application that works but nobody wants to touch. It runs on Windows Server 2016, targets .NET Framework 4.6, and uses Web Forms or MVC 5. The original developer left years ago. The codebase has no tests, no documentation, and a deployment process that involves copying files to a server and hoping for the best.</p>
-    <p>The application does its job, and your users depend on it. But it's becoming a liability. Security patches are getting harder to apply. You can't hire developers who want to work on legacy technology. Hosting costs are rising because it needs a dedicated Windows Server. And every feature request takes three times longer than it should because the code is tangled and fragile.</p>
-    <p>You've been told the only option is a full rewrite. That would take 12 to 18 months, cost six figures, and carry enormous risk. There's a better way.</p>
+    <p>The application may still serve its users while becoming harder to change or support. Review its supported platform, dependencies, deployment process and maintenance costs before deciding which changes are justified.</p>
+    <p>Compare a full rewrite with incremental changes using the same requirements and risk assessment. The appropriate choice depends on the codebase, integrations and constraints.</p>
 
     <h2>What You Get</h2>
-    <p>A modernised codebase that's faster, more secure, and easier to maintain. I use the strangler fig pattern to incrementally replace legacy components rather than risky big-bang rewrites. Each phase delivers working software you can test and validate before moving to the next. At no point is the application in a broken state — your users continue working throughout the process.</p>
-    <p>The end result is a modern .NET 8 application that can run on Linux, deploy to containers or Azure App Service, and be maintained by any .NET developer without specialist legacy knowledge.</p>
+    <p>A plan to improve maintainability, security and performance through incremental changes. Where suitable, I use the strangler fig pattern to replace components in stages. Each stage needs regression testing, an agreed cutover and a recovery plan; continued availability depends on the system and the changes involved.</p>
+    <p>Agree a supported .NET target and a suitable hosting model during assessment. Linux and container deployment depend on replacing or accommodating Windows-specific dependencies.</p>
 
     <h2>Common Scenarios</h2>
-    <p>The modernisation work I do most frequently involves upgrading .NET Framework 4.x applications to .NET 8 while preserving all existing functionality, replacing Web Forms with Razor Pages or Blazor one page at a time, breaking monolithic applications into smaller independently deployable services where the domain boundaries justify it, removing dependencies on deprecated libraries such as Windows Communication Foundation, Entity Framework 6, and OWIN, adding automated test coverage to untested codebases so changes can be made safely, and containerising legacy applications for cloud deployment.</p>
-    <p>I've also modernised VB.NET applications, Classic ASP sites, and hybrid applications that mix multiple .NET versions. The approach is the same regardless of the starting point — understand the current system, identify the highest-value changes, and deliver them incrementally.</p>
+    <p>Common scenarios include upgrading supported .NET Framework applications, replacing Web Forms pages, improving test coverage, and separating components where the domain boundaries justify it. Review WCF, Entity Framework and other dependencies individually before deciding what to retain or replace.</p>
+    <p>For VB.NET, Classic ASP or applications mixing multiple .NET versions, start with an assessment of dependencies and business requirements. Identify the changes with the most value and check whether they can be delivered incrementally.</p>
 
-    <h2>The Risk-Free Approach</h2>
+    <h2>Managing Migration Risk</h2>
     <p>Big rewrites fail. They take too long, cost too much, and often introduce more bugs than they fix. The business requirements drift during the rewrite, so by the time the new system is ready it doesn't match what users actually need. Meanwhile, the old system still needs maintenance, so you're paying for two systems.</p>
     <p>Instead, I modernise incrementally using the strangler fig pattern. I start with the highest-value, lowest-risk components — often the data access layer, authentication, or a frequently-changed module. Each component is extracted, rewritten in modern .NET, tested, and deployed alongside the legacy code. Over time, the new code gradually replaces the old until nothing remains of the original framework.</p>
-    <p>This approach means you get measurable improvements every sprint. You can stop at any point and still have a working, improved system. And you can validate each change with real users before moving to the next phase.</p>
+    <p>Agree measurable acceptance criteria for each stage and validate changes with representative users. Stopping or reversing a stage requires checking shared data, dependencies and any components already decommissioned.</p>
 
     <h2>How I Assess Your Codebase</h2>
-    <p>Every modernisation starts with a codebase assessment. I review the solution structure, dependency graph, test coverage (or lack of it), deployment process, and architectural patterns. I use the .NET Upgrade Assistant and try-convert tools to identify the mechanical changes needed, and manual review to assess the deeper structural issues.</p>
+    <p>Every modernisation starts with a codebase assessment covering dependencies, tests, deployment and architecture. Review current migration tooling against the target framework and your source-code handling rules. Microsoft marks <a href="https://learn.microsoft.com/en-us/dotnet/core/porting/upgrade-assistant-overview">.NET Upgrade Assistant as deprecated</a>; manual review and regression testing remain necessary.</p>
     <p>The assessment produces a prioritised roadmap: which components to modernise first, which dependencies need replacing, what the estimated effort is for each phase, and what the risk profile looks like. This gives you a clear picture of the total investment required and lets you make informed decisions about how far to go and how fast.</p>
 
     <h2>Technologies</h2>
@@ -120,7 +120,7 @@
     </div>
 </section>
 
-    <time datetime="2026-09-10" class="sr-only">Migration planning guidance updated 10 September 2026</time>
+    <time datetime="2026-09-12" class="sr-only">Last updated 12 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">

@@ -38,7 +38,7 @@
         },
         "url": "https://anthonyjohnson.dev/freelance-dev/blog/legacy-modernisation-without-rewrite.html",
         "datePublished": "2026-02-01",
-        "dateModified": "2026-09-10"
+        "dateModified": "2026-09-12"
     }
     </script>
     <meta name="twitter:image" content="https://anthonyjohnson.dev/freelance-dev/og-image.png">
@@ -73,7 +73,7 @@
 
 <article>
 <div class="article-content fade-up">
-<p>The temptation when facing a legacy codebase is to scrap it and start fresh. Don't. Full rewrites are the number one cause of failed software projects. Here's how to modernise incrementally, reducing risk while delivering value continuously.</p>
+<p>A legacy codebase needs an assessment before choosing between replacement and incremental modernisation. This article explores staged changes and the risks that still need to be managed.</p>
 
     <h2>Why Full Rewrites Fail</h2>
     <p>The legacy system has years of bug fixes, edge case handling, and domain knowledge baked in. A rewrite throws all of this away. The original developers have moved on, and nobody fully understands why certain things work the way they do. During the rewrite, someone will inevitably say "let's also redesign the workflow while we're at it" and suddenly you're not just rebuilding the technology — you're redesigning the business process too.</p>
@@ -84,7 +84,7 @@
     <h2>The Strangler Fig Pattern</h2>
     <p>Named after tropical fig trees that gradually envelop their host, this pattern replaces legacy components one at a time. New functionality is built in the modern stack. Old functionality is migrated piece by piece. A routing layer directs traffic to either the old or new system depending on which component has been migrated. Eventually, the old system has nothing left and can be switched off.</p>
     <p>Incremental routing can support rollback while the old implementation remains compatible. Shared data, irreversible schema changes and decommissioned components can prevent a simple reversal. Define and test the recovery path for each stage; see <a href="https://learn.microsoft.com/en-us/azure/architecture/patterns/strangler-fig">Microsoft's Strangler Fig guidance</a> for coexistence and data-migration considerations.</p>
-    <p>The pattern works regardless of your starting technology. I've used it to migrate ASP.NET Web Forms to Razor Pages, VB.NET desktop apps to web applications, Classic ASP to ASP.NET Core, and monolithic .NET Framework services to smaller .NET 8 microservices. The implementation details vary, but the principle is the same: replace incrementally, validate at each step, and never break the production system.</p>
+    <p>Possible migration scenarios include Web Forms to Razor Pages, desktop applications to web applications, and replacing selected legacy services. These are examples, not accounts of commissioned projects. Check that requests can be routed between implementations and that their data remains compatible.</p>
 
     <h2>Where to Start</h2>
     <p>Don't start with the most complex component. Start with something small, well-understood, and low-risk. A settings page. A simple report. A lookup API. This lets you establish the new architecture, set up CI/CD, configure the hosting environment, and prove the approach works — all without risking anything critical.</p>
@@ -102,7 +102,7 @@
     <p>The database is usually the hardest part of any modernisation project. Legacy systems often have tightly coupled stored procedures, triggers, views, and direct table access from multiple applications. Changing the database schema risks breaking systems you didn't even know depended on it.</p>
     <p>My approach is to keep the existing database initially and build new services that read from it. This means the old and new systems share the same data without needing data migration or synchronisation. Gradually introduce new tables or schemas for migrated components that need different data structures. Use database views to provide backwards compatibility — the old system continues reading from what it thinks are tables, but they're actually views on the new schema.</p>
     <p>For stored procedures, I migrate them to application code as part of the modernisation. Stored procedures are difficult to test, difficult to version control, and create tight coupling between the application and the database. Moving business logic into the application layer (where it belongs) makes the system more testable, more portable, and easier to understand.</p>
-    <p>Eventually, once the old system is fully replaced, you can consolidate the database — removing the backwards-compatible views, dropping unused tables, and cleaning up the schema. But this is the last step, not the first. Premature database migration is the leading cause of failed modernisation projects because it forces a big-bang cutover at the data layer even if the application layer is being migrated incrementally.</p>
+    <p>Once the old system is retired, review unused database objects and compatibility layers before removing them. Data changes need their own migration and recovery plan, even when application changes are incremental.</p>
 
     <h2>Measuring Progress</h2>
     <p>Track what percentage of traffic goes through the new system versus the old. This gives you a clear, objective measure of migration progress that stakeholders can understand. Set realistic milestones — 25, 50, 75 percent — and celebrate each one.</p>
@@ -111,7 +111,7 @@
 
     <h2>When to Stop</h2>
     <p>Not every component needs migrating. If a legacy component is stable, rarely changes, and doesn't cause operational problems, the cost of migrating it may exceed the benefit. It's perfectly acceptable to have a modern system that still proxies a handful of requests to a legacy backend for rarely-used functionality. The goal is to eliminate risk and improve developer productivity, not to achieve architectural purity.</p>
-    <p>I've seen teams spend months migrating admin screens that three people use once a month. That time would have been better spent improving the high-traffic components that affect every user. Be ruthless about prioritisation and don't let perfectionism drive the migration scope.</p>
+    <p>Compare the effort of migrating rarely used screens with the benefit to their users. Prioritise changes using evidence about usage, support needs and risk.</p>
 
     <h2>Need Help?</h2>
     <p>I specialise in <a href="../services/legacy-modernisation.html">incremental legacy modernisation</a> for .NET applications. If you're facing a legacy system that's holding your team back and want to explore modernisation options, <a href="../contact.html">get in touch</a> for a free 30-minute discovery call. I'll give you an honest assessment of what's involved and whether the strangler fig approach is right for your situation.</p>
@@ -126,7 +126,7 @@
     </div>
 </section>
 
-    <time datetime="2026-09-10" class="sr-only">Technical guidance updated 10 September 2026</time>
+    <time datetime="2026-09-12" class="sr-only">Last updated 12 September 2026</time>
 </main>
 
 <footer role="contentinfo" class="footer">
