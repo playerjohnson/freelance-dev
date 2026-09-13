@@ -12,18 +12,29 @@ spec.loader.exec_module(pages)
 
 
 class PagesWaitTests(unittest.TestCase):
-    def successful_response(self):
-        return io.BytesIO(json.dumps({"workflow_runs": [{
-            "name": "pages build and deployment", "head_sha": "wanted",
-            "head_branch": "main", "id": 42, "status": "completed", "conclusion": "success"
-        }]}).encode())
+    def managed_run(self, **overrides):
+        run = {
+            "name": "pages build and deployment",
+            "path": pages.PAGES_WORKFLOW_PATH,
+            "event": pages.PAGES_EVENT,
+            "head_sha": "wanted",
+            "head_branch": "main",
+            "id": 42,
+            "status": "completed",
+            "conclusion": "success",
+        }
+        run.update(overrides)
+        return run
 
-    def test_only_the_main_pages_run_for_the_requested_commit_matches(self):
+    def successful_response(self):
+        return io.BytesIO(json.dumps({"workflow_runs": [self.managed_run()]}).encode())
+
+    def test_only_the_managed_main_pages_run_for_the_requested_commit_matches(self):
         runs = [
-            {"name": "Site checks", "head_sha": "wanted", "head_branch": "main"},
-            {"name": "pages build and deployment", "head_sha": "older", "head_branch": "main"},
-            {"name": "pages build and deployment", "head_sha": "wanted", "head_branch": "feature"},
-            {"name": "pages build and deployment", "head_sha": "wanted", "head_branch": "main", "id": 42},
+            {"name": "pages build and deployment", "path": ".github/workflows/spoof-pages.yml", "event": "push", "head_sha": "wanted", "head_branch": "main", "id": 1},
+            self.managed_run(head_sha="older", id=2),
+            self.managed_run(head_branch="feature", id=3),
+            self.managed_run(id=42),
         ]
         self.assertEqual(pages.pages_run(runs, "wanted")["id"], 42)
         self.assertIsNone(pages.pages_run(runs, "absent"))
@@ -64,10 +75,7 @@ class PagesWaitTests(unittest.TestCase):
         delay.assert_not_called()
 
     def test_failed_pages_deployment_is_not_retried_as_an_api_failure(self):
-        response = io.BytesIO(json.dumps({"workflow_runs": [{
-            "name": "pages build and deployment", "head_sha": "wanted",
-            "head_branch": "main", "id": 42, "status": "completed", "conclusion": "failure"
-        }]}).encode())
+        response = io.BytesIO(json.dumps({"workflow_runs": [self.managed_run(conclusion="failure")]}).encode())
         with patch.object(pages, "urlopen", return_value=response) as request, patch.object(pages.time, "sleep") as delay:
             with self.assertRaisesRegex(RuntimeError, "Pages run 42 finished: failure"):
                 pages.wait_for_pages("wanted", {})
@@ -141,3 +149,7 @@ class PagesWaitTests(unittest.TestCase):
                 pages.wait_for_pages("wanted", {})
         self.assertEqual(request.call_count, 1)
         delay.assert_not_called()
+
+
+if __name__ == "__main__":
+    unittest.main()

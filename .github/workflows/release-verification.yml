@@ -12,8 +12,8 @@ permissions:
   actions: read
 
 concurrency:
-  group: verify-public-release
-  cancel-in-progress: true
+  group: verify-public-release-${{ github.event.workflow_run.head_sha || github.sha }}
+  cancel-in-progress: false
 
 jobs:
   verify:
@@ -28,23 +28,11 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
           persist-credentials: false
-      - name: Check whether the release has been superseded
-        id: current
-        run: |
-          git fetch --no-tags origin main
-          if [ "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)" ]; then
-            echo "current=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "current=false" >> "$GITHUB_OUTPUT"
-            echo "Superseded release: public verification skipped." >> "$GITHUB_STEP_SUMMARY"
-          fi
       - name: Wait for Pages at this commit
-        if: steps.current.outputs.current == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: python3 scripts/wait_for_pages.py
       - name: Verify public files, redirect and 404
-        if: steps.current.outputs.current == 'true'
         env:
-          CHECK_CURRENT_MAIN: 'true'
+          GH_TOKEN: ${{ github.token }}
         run: python3 scripts/verify_release.py

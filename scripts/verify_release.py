@@ -5,26 +5,62 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import posixpath
 import subprocess
 import time
 from urllib.error import HTTPError
-from urllib.parse import urljoin
-from urllib.request import Request, HTTPRedirectHandler, build_opener
+from urllib.parse import unquote, urljoin, urlsplit
+from urllib.request import Request, HTTPRedirectHandler, build_opener, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
+REPOSITORY = "playerjohnson/freelance-dev"
 BASE = "https://anthonyjohnson.dev/freelance-dev/"
+BASE_PARTS = urlsplit(BASE)
+SITE_ROOT = BASE_PARTS.path.rstrip("/")
+ACTIONS_URL = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?branch=main&status=success&per_page=100"
+PAGES_WORKFLOW_PATH = "dynamic/pages/pages-build-deployment"
+PAGES_EVENT = "dynamic"
+MAX_DECODE_PASSES = 16
+MAX_ENCODED_PATH_LENGTH = 8192
 HEADERS = ("content-security-policy", "x-frame-options", "x-content-type-options", "referrer-policy", "strict-transport-security", "cache-control")
+
+
+def decoded_path(path):
+    """Decode nested URL escaping to a bounded fixed point before scope checks."""
+    if len(path) > MAX_ENCODED_PATH_LENGTH:
+        return None
+    decoded = path
+    for _ in range(MAX_DECODE_PASSES):
+        try:
+            expanded = unquote(decoded, errors="strict")
+        except UnicodeDecodeError:
+            return None
+        if expanded == decoded:
+            return decoded
+        decoded = expanded
+    return None
+
+
+def is_scoped_url(url):
+    parsed = urlsplit(url)
+    if parsed.scheme != BASE_PARTS.scheme or parsed.netloc != BASE_PARTS.netloc:
+        return False
+    path = decoded_path(parsed.path)
+    if path is None or "\\" in path or any(ord(character) < 32 for character in path):
+        return False
+    normalised = posixpath.normpath(path)
+    return normalised == SITE_ROOT or normalised.startswith(SITE_ROOT + "/")
 
 
 class ScopedRedirect(HTTPRedirectHandler):
     def redirect_request(self, request, fp, code, message, headers, new_url):
-        if not new_url.startswith(BASE):
+        if not is_scoped_url(new_url):
             raise ValueError("Redirect leaves the freelance site; refusing to follow")
         return super().redirect_request(request, fp, code, message, headers, new_url)
 
 
 def retrieve(url):
-    if not (url.startswith(BASE) or url == BASE.rstrip("/")):
+    if not is_scoped_url(url):
         raise ValueError("Only the freelance site may be inspected")
     request = Request(url, headers={"User-Agent": "freelance-dev-release-check", "Accept-Encoding": "identity"})
     started = time.monotonic()
@@ -60,14 +96,28 @@ def compare(path):
     raise RuntimeError(f"{relative}: {last}")
 
 
-def is_current_release(sha):
-    subprocess.run(["git", "fetch", "--quiet", "--no-tags", "origin", "main"], cwd=ROOT, check=True, timeout=15)
-    current = subprocess.check_output(["git", "rev-parse", "FETCH_HEAD"], cwd=ROOT, text=True).strip()
-    return sha == current
+def latest_successful_pages_sha():
+    headers = {"Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+    token = os.environ.get("GH_TOKEN")
+    if token:
+        headers["Authorization"] = "Bearer " + token
+    with urlopen(Request(ACTIONS_URL, headers=headers), timeout=10) as response:
+        body = response.read(2_000_001)
+    if len(body) > 2_000_000:
+        raise RuntimeError("Actions API response exceeded the release-check limit")
+    payload = json.loads(body)
+    for run in payload.get("workflow_runs", []):
+        if (run.get("path") == PAGES_WORKFLOW_PATH and
+                run.get("event") == PAGES_EVENT and
+                run.get("head_branch") == "main" and
+                run.get("status") == "completed" and
+                run.get("conclusion") == "success" and run.get("head_sha")):
+            return run["head_sha"]
+    raise RuntimeError("No successful managed main Pages deployment was found for supersession checking")
 
 
-def report_superseded(sha):
-    message = f"Superseded release `{sha}`: public verification skipped."
+def report_superseded(sha, latest_sha):
+    message = f"Superseded release `{sha}`: newer successful Pages deployment `{latest_sha}` exists; public verification skipped."
     print(message)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as output:
@@ -91,20 +141,14 @@ def verify_files(sha):
 
 def main():
     sha = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    check_current = os.environ.get("CHECK_CURRENT_MAIN") == "true"
-    if check_current and not is_current_release(sha):
-        report_superseded(sha)
-        return
     try:
         report = verify_files(sha)
     except (RuntimeError, OSError, ValueError):
-        if check_current and not is_current_release(sha):
-            report_superseded(sha)
+        latest_sha = latest_successful_pages_sha()
+        if latest_sha != sha:
+            report_superseded(sha, latest_sha)
             return
         raise
-    if check_current and not is_current_release(sha):
-        report_superseded(sha)
-        return
     print(json.dumps(report, indent=2))
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         home = next(item for item in report["files"] if item["path"] == "index.html")
