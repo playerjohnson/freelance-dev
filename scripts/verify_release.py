@@ -20,21 +20,25 @@ SITE_ROOT = BASE_PARTS.path.rstrip("/")
 ACTIONS_URL = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?branch=main&status=success&per_page=100"
 PAGES_WORKFLOW_PATH = "dynamic/pages/pages-build-deployment"
 PAGES_EVENT = "dynamic"
+MAX_DECODE_PASSES = 16
+MAX_ENCODED_PATH_LENGTH = 8192
 HEADERS = ("content-security-policy", "x-frame-options", "x-content-type-options", "referrer-policy", "strict-transport-security", "cache-control")
 
 
 def decoded_path(path):
-    """Decode nested URL escaping conservatively before applying the site boundary."""
+    """Decode nested URL escaping to a bounded fixed point before scope checks."""
+    if len(path) > MAX_ENCODED_PATH_LENGTH:
+        return None
     decoded = path
-    for _ in range(3):
+    for _ in range(MAX_DECODE_PASSES):
         try:
             expanded = unquote(decoded, errors="strict")
         except UnicodeDecodeError:
             return None
         if expanded == decoded:
-            break
+            return decoded
         decoded = expanded
-    return decoded
+    return None
 
 
 def is_scoped_url(url):
