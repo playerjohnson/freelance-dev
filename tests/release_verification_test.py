@@ -61,12 +61,12 @@ class ReleaseVerificationTests(unittest.TestCase):
             self.assertEqual(request.call_count, 4)
             self.assertEqual(delay.call_count, 3)
 
-    def test_latest_successful_pages_sha_ignores_unrelated_and_failed_runs(self):
+    def test_latest_successful_pages_sha_requires_the_managed_pages_identity(self):
         payload = {
             "workflow_runs": [
-                {"name": "Site checks", "head_branch": "main", "status": "completed", "conclusion": "success", "head_sha": "unrelated"},
-                {"name": "pages build and deployment", "head_branch": "main", "status": "completed", "conclusion": "failure", "head_sha": "failed"},
-                {"name": "pages build and deployment", "head_branch": "main", "status": "completed", "conclusion": "success", "head_sha": "latest"},
+                {"name": "pages build and deployment", "path": ".github/workflows/spoof-pages.yml", "event": "push", "head_branch": "main", "status": "completed", "conclusion": "success", "head_sha": "spoofed"},
+                {"path": release.PAGES_WORKFLOW_PATH, "event": release.PAGES_EVENT, "head_branch": "main", "status": "completed", "conclusion": "failure", "head_sha": "failed"},
+                {"path": release.PAGES_WORKFLOW_PATH, "event": release.PAGES_EVENT, "head_branch": "main", "status": "completed", "conclusion": "success", "head_sha": "latest"},
             ]
         }
         response = io.BytesIO(json.dumps(payload).encode())
