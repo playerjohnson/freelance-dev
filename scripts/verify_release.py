@@ -18,6 +18,8 @@ BASE = "https://anthonyjohnson.dev/freelance-dev/"
 BASE_PARTS = urlsplit(BASE)
 SITE_ROOT = BASE_PARTS.path.rstrip("/")
 ACTIONS_URL = f"https://api.github.com/repos/{REPOSITORY}/actions/runs?branch=main&status=success&per_page=100"
+PAGES_WORKFLOW_PATH = "dynamic/pages/pages-build-deployment"
+PAGES_EVENT = "dynamic"
 HEADERS = ("content-security-policy", "x-frame-options", "x-content-type-options", "referrer-policy", "strict-transport-security", "cache-control")
 
 
@@ -101,12 +103,13 @@ def latest_successful_pages_sha():
         raise RuntimeError("Actions API response exceeded the release-check limit")
     payload = json.loads(body)
     for run in payload.get("workflow_runs", []):
-        if (run.get("name") == "pages build and deployment" and
+        if (run.get("path") == PAGES_WORKFLOW_PATH and
+                run.get("event") == PAGES_EVENT and
                 run.get("head_branch") == "main" and
                 run.get("status") == "completed" and
                 run.get("conclusion") == "success" and run.get("head_sha")):
             return run["head_sha"]
-    raise RuntimeError("No successful main Pages deployment was found for supersession checking")
+    raise RuntimeError("No successful managed main Pages deployment was found for supersession checking")
 
 
 def report_superseded(sha, latest_sha):
