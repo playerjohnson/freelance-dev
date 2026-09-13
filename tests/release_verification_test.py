@@ -19,6 +19,7 @@ class ReleaseVerificationTests(unittest.TestCase):
             "https://anthonyjohnson.dev/everyday-tools/",
             "https://anthonyjohnson.dev/freelance-dev/%2e%2e/everyday-tools/",
             "https://anthonyjohnson.dev/freelance-dev/%252e%252e/everyday-tools/",
+            "https://anthonyjohnson.dev/freelance-dev/%2525252e%2525252e/everyday-tools/",
         ):
             with self.subTest(url=url), self.assertRaises(ValueError):
                 release.retrieve(url)
@@ -29,6 +30,7 @@ class ReleaseVerificationTests(unittest.TestCase):
             "https://example.com/freelance-dev/",
             "https://anthonyjohnson.dev/freelance-dev/%2e%2e/everyday-tools/",
             "https://anthonyjohnson.dev/freelance-dev/%252e%252e/everyday-tools/",
+            "https://anthonyjohnson.dev/freelance-dev/%2525252e%2525252e/everyday-tools/",
         ):
             with self.subTest(url=url), self.assertRaises(ValueError):
                 release.ScopedRedirect().redirect_request(None, None, 302, "Found", {}, url)
@@ -39,6 +41,16 @@ class ReleaseVerificationTests(unittest.TestCase):
         self.assertTrue(release.is_scoped_url(release.BASE + "services/api-integration.html"))
         self.assertTrue(release.is_scoped_url(release.BASE + "services/%61pi-integration.html"))
         self.assertFalse(release.is_scoped_url(release.BASE + "services/../../../everyday-tools/"))
+
+    def test_unfinished_nested_decoding_is_rejected_at_the_safety_bound(self):
+        encoded = "%2e%2e/everyday-tools/"
+        for _ in range(release.MAX_DECODE_PASSES):
+            encoded = encoded.replace("%", "%25")
+        self.assertFalse(release.is_scoped_url(release.BASE + encoded))
+
+    def test_oversized_encoded_path_is_rejected(self):
+        oversized = "a" * (release.MAX_ENCODED_PATH_LENGTH + 1)
+        self.assertFalse(release.is_scoped_url(release.BASE + oversized))
 
     def test_byte_match_passes_without_a_second_request(self):
         with tempfile.TemporaryDirectory() as folder:
