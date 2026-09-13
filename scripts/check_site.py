@@ -75,15 +75,15 @@ def validate():
         duplicates = [key for key, total in Counter(page.ids).items() if total > 1]
         if duplicates:
             raise ValueError(f"{name}: duplicate IDs: {duplicates}")
-        if page.schemas:
-            canonical = BASE if name == "index.html" else url
+        canonical = BASE if name == "index.html" else url
+        if page.canonicals or page.schemas:
             if page.canonicals != [canonical] or page.h1s != 1 or "main-content" not in page.ids:
                 raise ValueError(f"{name}: invalid canonical, h1 or main landmark")
             if page.og_urls != [canonical]:
                 raise ValueError(f"{name}: Open Graph URL differs from canonical")
-            for schema in page.schemas:
-                if schema.get("url") != canonical:
-                    raise ValueError(f"{name}: structured data URL differs from canonical")
+        for schema in page.schemas:
+            if schema.get("url") != canonical:
+                raise ValueError(f"{name}: structured data URL differs from canonical")
         for link in page.links:
             resolved = urljoin(url, link)
             target = local_target(resolved)
