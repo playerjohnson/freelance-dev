@@ -9,10 +9,13 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 REPOSITORY = "playerjohnson/freelance-dev"
+PAGES_WORKFLOW_PATH = "dynamic/pages/pages-build-deployment"
+PAGES_EVENT = "dynamic"
 
 
 def pages_run(runs, sha):
-    return next((run for run in runs if run.get("name") == "pages build and deployment"
+    return next((run for run in runs if run.get("path") == PAGES_WORKFLOW_PATH
+                 and run.get("event") == PAGES_EVENT
                  and run.get("head_sha") == sha and run.get("head_branch") == "main"), None)
 
 
